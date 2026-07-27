@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Proyecto_Progra_Grupo8.Entidades.Models; 
 
 namespace Proyecto_Progra_Grupo8.Models
 {
@@ -24,6 +25,11 @@ namespace Proyecto_Progra_Grupo8.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        // TABLAS 
+        public DbSet<Evento> Eventos { get; set; }
+        public DbSet<ImagenEvento> ImagenesEventos { get; set; }
+        
 
         public static ApplicationDbContext Create()
         {

@@ -3,6 +3,9 @@ using Proyecto_Progra_Grupo8.Entidades.Models;
 using Proyecto_Progra_Grupo8.Negocio.Resultado;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
 
 namespace Proyecto_Progra_Grupo8.Negocio.Services
 {
@@ -87,6 +90,11 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
 
         public ResultadoOperacion Crear(Evento evento)
         {
+            return Crear(evento, null);
+        }
+
+        public ResultadoOperacion Crear(Evento evento, IEnumerable<HttpPostedFileBase> imagenes)
+        {
             ResultadoOperacion validacion =
                 ValidarDatosGenerales(evento);
 
@@ -122,6 +130,32 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
 
             evento.Activo = true;
 
+            if (evento.Imagenes == null)
+            {
+                evento.Imagenes = new List<ImagenEvento>();
+            }
+
+            if (imagenes != null && imagenes.Any())
+            {
+                foreach (var archivo in imagenes)
+                {
+                    if (archivo != null && archivo.ContentLength > 0)
+                    {
+                        byte[] bytesImagen;
+                        using (var binaryReader = new BinaryReader(archivo.InputStream))
+                        {
+                            bytesImagen = binaryReader.ReadBytes(archivo.ContentLength);
+                        }
+
+                        evento.Imagenes.Add(new ImagenEvento
+                        {
+                            Archivo = bytesImagen,
+                            TipoContenido = archivo.ContentType
+                        });
+                    }
+                }
+            }
+
             try
             {
                 _eventoRepository.Agregar(evento);
@@ -142,6 +176,11 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
 
 
         public ResultadoOperacion Actualizar(Evento evento)
+        {
+            return Actualizar(evento, null);
+        }
+
+        public ResultadoOperacion Actualizar(Evento evento, IEnumerable<HttpPostedFileBase> nuevasImagenes)
         {
             ResultadoOperacion validacion =
                 ValidarDatosGenerales(evento);
@@ -227,6 +266,29 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
 
             eventoExistente.Activo =
                 evento.Activo;
+
+            if (nuevasImagenes != null && nuevasImagenes.Any(img => img != null && img.ContentLength > 0))
+            {
+                if (eventoExistente.Imagenes == null)
+                {
+                    eventoExistente.Imagenes = new List<ImagenEvento>();
+                }
+
+                foreach (var archivo in nuevasImagenes)
+                {
+                    if (archivo != null && archivo.ContentLength > 0)
+                    {
+                        using (var binaryReader = new BinaryReader(archivo.InputStream))
+                        {
+                            eventoExistente.Imagenes.Add(new ImagenEvento
+                            {
+                                Archivo = binaryReader.ReadBytes(archivo.ContentLength),
+                                TipoContenido = archivo.ContentType
+                            });
+                        }
+                    }
+                }
+            }
 
             try
             {
