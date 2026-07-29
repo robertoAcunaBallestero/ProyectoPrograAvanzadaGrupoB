@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Asociados";
+}
+
+<h2>Asociados registrados</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Número de asociado</th>
+            <th>Nombre completo</th>
+            <th>Cédula</th>
+            <th>Correo</th>
+            <th>Fecha de ingreso</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var asociado in Model)
+        {
+            <tr>
+                <td>@asociado.NumeroAsociado</td>
+                <td>@asociado.NombreCompleto</td>
+                <td>@asociado.Cedula</td>
+                <td>@asociado.Email</td>
+                <td>@asociado.FechaIngreso.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

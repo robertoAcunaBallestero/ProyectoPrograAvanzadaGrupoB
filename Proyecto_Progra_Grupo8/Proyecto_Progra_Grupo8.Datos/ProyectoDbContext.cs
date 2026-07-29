@@ -1,9 +1,10 @@
 ﻿using Proyecto_Progra_Grupo8.Entidades.Models;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Proyecto_Progra_Grupo8.Datos
 {
-    public class ProyectoDbContext : DbContext
+    public class ProyectoDbContext : IdentityDbContext<ApplicationUser>
     {
         public ProyectoDbContext()
             : base("DefaultConnection")

@@ -1,51 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Progra_Grupo8.Models
 {
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [Display(Name = "Correo electrónico")]
-        public string Email { get; set; }
-    }
-
-    public class ExternalLoginListViewModel
-    {
-        public string ReturnUrl { get; set; }
-    }
-
-    public class SendCodeViewModel
-    {
-        public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
-        public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
-    }
-
-    public class VerifyCodeViewModel
-    {
-        [Required]
-        public string Provider { get; set; }
-
-        [Required]
-        [Display(Name = "Código")]
-        public string Code { get; set; }
-        public string ReturnUrl { get; set; }
-
-        [Display(Name = "¿Recordar este explorador?")]
-        public bool RememberBrowser { get; set; }
-
-        public bool RememberMe { get; set; }
-    }
-
-    public class ForgotViewModel
-    {
-        [Required]
-        [Display(Name = "Correo electrónico")]
-        public string Email { get; set; }
-    }
-
     public class LoginViewModel
     {
         [Required]
@@ -62,51 +19,58 @@ namespace Proyecto_Progra_Grupo8.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : IValidatableObject
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "El nombre completo es obligatorio.")]
+        [StringLength(120, MinimumLength = 3)]
+        [Display(Name = "Nombre completo")]
+        public string NombreCompleto { get; set; }
+
+        [Required(ErrorMessage = "La cédula es obligatoria.")]
+        [StringLength(20, MinimumLength = 9,
+            ErrorMessage = "La cédula debe tener entre 9 y 20 caracteres.")]
+        [Display(Name = "Cédula")]
+        public string Cedula { get; set; }
+
+        [Required(ErrorMessage = "El correo es obligatorio.")]
+        [EmailAddress(ErrorMessage = "Formato de correo inválido.")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [Required(ErrorMessage = "El número de asociado es obligatorio.")]
+        [RegularExpression(@"^AS-\d{4}$",
+            ErrorMessage = "El número de asociado debe tener el formato AS-0000.")]
+        [Display(Name = "Número de asociado")]
+        public string NumeroAsociado { get; set; }
+
+        [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de nacimiento")]
+        public DateTime FechaNacimiento { get; set; }
+
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
+        [StringLength(100, MinimumLength = 6,
+            ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
-        public string ConfirmPassword { get; set; }
-    }
-
-    public class ResetPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Correo electrónico")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
 
-        public string Code { get; set; }
-    }
+        public System.Collections.Generic.IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var edad = DateTime.Today.Year - FechaNacimiento.Year;
+            if (FechaNacimiento.Date > DateTime.Today.AddYears(-edad)) edad--;
 
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Correo electrónico")]
-        public string Email { get; set; }
+            if (edad < 18)
+            {
+                yield return new ValidationResult(
+                    "El asociado debe ser mayor de edad.",
+                    new[] { nameof(FechaNacimiento) });
+            }
+        }
     }
 }

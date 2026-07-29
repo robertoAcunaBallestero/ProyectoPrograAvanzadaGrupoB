@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Mi panel";
+}
+
+<h2>Bienvenido, @User.Identity.GetUserName()</h2>
+
+@if (User.IsInRole("Administrador"))
+{
+    <p>
+        Tiene el rol <strong>Administrador</strong>.
+        @Html.ActionLink("Ver asociados", "Index", "Administracion", null, new { @class = "btn btn-outline-dark" })
+    </p>
+}
+else
+{
+    <p>Tiene el rol <strong>Asociado</strong>.</p>
+}
