@@ -44,7 +44,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resultado\ResultadoOperacion.cs" />
+    <Compile Include="Services\CarteleraService.cs" />
+    <Compile Include="Services\CompraService.cs" />
     <Compile Include="Services\EventoService.cs" />
+    <Compile Include="Services\ICarteleraService.cs" />
+    <Compile Include="Services\ICompraService.cs" />
     <Compile Include="Services\IEventoService.cs" />
   </ItemGroup>
   <ItemGroup>
