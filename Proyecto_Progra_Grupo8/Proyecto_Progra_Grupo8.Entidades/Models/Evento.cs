@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Progra_Grupo8.Entidades.Models
 {
-
     public class Evento
     {
-
+        public Evento()
+        {
+            Imagenes = new HashSet<ImagenEvento>();
+        }
 
         public int EventoId { get; set; }
-
 
         [Required(ErrorMessage = "El código del evento es obligatorio.")]
         [StringLength(
@@ -26,7 +28,6 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
         [Display(Name = "Nombre del evento")]
         public string Nombre { get; set; }
 
-
         [Required(ErrorMessage = "La descripción es obligatoria.")]
         [StringLength(
             1000,
@@ -35,16 +36,13 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
         [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
 
-
         [Required(ErrorMessage = "La categoría es obligatoria.")]
         [Display(Name = "Categoría")]
         public int CategoriaEventoId { get; set; }
 
-
         [Required(ErrorMessage = "La fecha y hora son obligatorias.")]
         [Display(Name = "Fecha y hora")]
         public DateTime FechaHora { get; set; }
-
 
         [Required(ErrorMessage = "El lugar es obligatorio.")]
         [StringLength(
@@ -52,7 +50,6 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
             ErrorMessage = "El lugar no puede superar los 200 caracteres.")]
         [Display(Name = "Lugar")]
         public string Lugar { get; set; }
-
 
         [Required(ErrorMessage = "El precio de la entrada es obligatorio.")]
         [Range(
@@ -63,7 +60,6 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
         [Display(Name = "Precio de la entrada")]
         public decimal PrecioEntrada { get; set; }
 
-
         [Required(ErrorMessage = "El aforo total es obligatorio.")]
         [Range(
             1,
@@ -71,7 +67,6 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
             ErrorMessage = "El aforo total debe ser mayor que cero.")]
         [Display(Name = "Aforo total")]
         public int AforoTotal { get; set; }
-
 
         [Required(ErrorMessage = "Las entradas disponibles son obligatorias.")]
         [Range(
@@ -81,8 +76,14 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
         [Display(Name = "Entradas disponibles")]
         public int EntradasDisponibles { get; set; }
 
-
         [Display(Name = "Activo")]
         public bool Activo { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
+        public virtual CategoriaEvento CategoriaEvento { get; set; }
+
+        public virtual ICollection<ImagenEvento> Imagenes { get; set; }
     }
 }

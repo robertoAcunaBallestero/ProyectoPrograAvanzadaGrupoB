@@ -2,76 +2,166 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Progra_Grupo8.Datos.Repositories
 {
     public class CompraRepository : ICompraRepository
     {
-        private readonly ComprasDbContext _context = new ComprasDbContext();
+        private readonly ProyectoDbContext _context;
 
-        public Orden ProcesarCompra(string usuarioId, IDictionary<int, int> cantidades)
+        public CompraRepository(ProyectoDbContext context)
         {
-            using (var tx = _context.Database.BeginTransaction(IsolationLevel.Serializable))
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
+            _context = context;
+        }
+
+        public Orden ProcesarCompra(
+            string usuarioId,
+            IDictionary<int, int> cantidades)
+        {
+            if (string.IsNullOrWhiteSpace(usuarioId))
+            {
+                throw new ArgumentException(
+                    "El identificador del usuario es obligatorio.",
+                    "usuarioId");
+            }
+
+            if (cantidades == null || !cantidades.Any())
+            {
+                throw new InvalidOperationException(
+                    "El carrito no contiene entradas.");
+            }
+
+            using (var transaccion =
+                _context.Database.BeginTransaction(
+                    IsolationLevel.Serializable))
             {
                 try
                 {
-                    var orden = new Orden { UsuarioId = usuarioId, FechaCompra = DateTime.Now };
-                    decimal total = 0;
-
-                    foreach (var item in cantidades)
+                    var orden = new Orden
                     {
-                        var evento = _context.Eventos.FirstOrDefault(e => e.EventoId == item.Key && e.Activo);
-                        if (evento == null) throw new InvalidOperationException("Uno de los eventos ya no está disponible.");
-                        if (item.Value <= 0) throw new InvalidOperationException("La cantidad de entradas debe ser mayor que cero.");
-                        if (evento.EntradasDisponibles < item.Value)
-                            throw new InvalidOperationException("No hay suficientes entradas disponibles para " + evento.Nombre + ".");
+                        UsuarioId = usuarioId,
+                        FechaCompra = DateTime.Now
+                    };
 
-                        evento.EntradasDisponibles -= item.Value;
+                    decimal total = 0m;
+
+                    // Se ordenan los eventos para reducir el riesgo
+                    // de bloqueos cruzados entre compras simultáneas.
+                    foreach (var item in cantidades.OrderBy(x => x.Key))
+                    {
+                        int eventoId = item.Key;
+                        int cantidad = item.Value;
+
+                        if (cantidad <= 0)
+                        {
+                            throw new InvalidOperationException(
+                                "La cantidad de entradas debe ser mayor que cero.");
+                        }
+
+                        var evento = _context.Eventos
+                            .SingleOrDefault(e =>
+                                e.EventoId == eventoId &&
+                                e.Activo);
+
+                        if (evento == null)
+                        {
+                            throw new InvalidOperationException(
+                                "Uno de los eventos ya no está disponible.");
+                        }
+
+                        if (evento.FechaHora <= DateTime.Now)
+                        {
+                            throw new InvalidOperationException(
+                                "El evento " + evento.Nombre +
+                                " ya inició o finalizó.");
+                        }
+
+                        if (evento.EntradasDisponibles < cantidad)
+                        {
+                            throw new InvalidOperationException(
+                                "No hay suficientes entradas disponibles para " +
+                                evento.Nombre + ".");
+                        }
+
+                        // Reduce el aforo dentro de la misma transacción.
+                        evento.EntradasDisponibles -= cantidad;
+
                         var detalle = new DetalleOrden
                         {
                             EventoId = evento.EventoId,
-                            Cantidad = item.Value,
+                            Cantidad = cantidad,
                             PrecioUnitario = evento.PrecioEntrada
                         };
 
-                        for (int i = 0; i < item.Value; i++)
+                        // Genera un ticket individual por cada entrada.
+                        for (int i = 0; i < cantidad; i++)
                         {
-                            detalle.Tickets.Add(new Ticket
-                            {
-                                CodigoUnico = Guid.NewGuid().ToString("N").ToUpperInvariant(),
-                                FechaGeneracion = DateTime.Now
-                            });
+                            detalle.Tickets.Add(
+                                new Ticket
+                                {
+                                    CodigoUnico = Guid.NewGuid()
+                                        .ToString("N")
+                                        .ToUpperInvariant(),
+
+                                    FechaGeneracion = DateTime.Now
+                                });
                         }
 
                         orden.Detalles.Add(detalle);
-                        total += evento.PrecioEntrada * item.Value;
+
+                        total += evento.PrecioEntrada * cantidad;
                     }
 
                     orden.Total = total;
+
                     _context.Ordenes.Add(orden);
                     _context.SaveChanges();
-                    tx.Commit();
+
+                    transaccion.Commit();
+
                     return orden;
                 }
                 catch
                 {
-                    tx.Rollback();
+                    transaccion.Rollback();
                     throw;
                 }
             }
         }
 
-        public IEnumerable<Orden> ObtenerOrdenesUsuario(string usuarioId) => _context.Ordenes.AsNoTracking()
-            .Where(o => o.UsuarioId == usuarioId).OrderByDescending(o => o.FechaCompra).ToList();
+        public IEnumerable<Orden> ObtenerOrdenesUsuario(
+            string usuarioId)
+        {
+            return _context.Ordenes
+                .AsNoTracking()
+                .Where(o => o.UsuarioId == usuarioId)
+                .OrderByDescending(o => o.FechaCompra)
+                .ToList();
+        }
 
-        public Orden ObtenerOrdenUsuario(int ordenId, string usuarioId) => _context.Ordenes
-            .Include(o => o.Detalles.Select(d => d.Evento))
-            .Include(o => o.Detalles.Select(d => d.Tickets))
-            .AsNoTracking().FirstOrDefault(o => o.OrdenId == ordenId && o.UsuarioId == usuarioId);
+        public Orden ObtenerOrdenUsuario(
+            int ordenId,
+            string usuarioId)
+        {
+            return _context.Ordenes
+                .Include(o => o.Detalles.Select(d => d.Evento))
+                .Include(o => o.Detalles.Select(d => d.Tickets))
+                .AsNoTracking()
+                .FirstOrDefault(o =>
+                    o.OrdenId == ordenId &&
+                    o.UsuarioId == usuarioId);
+        }
 
-        public void Dispose() => _context.Dispose();
+        public void Dispose()
+        {
+            
+        }
     }
 }

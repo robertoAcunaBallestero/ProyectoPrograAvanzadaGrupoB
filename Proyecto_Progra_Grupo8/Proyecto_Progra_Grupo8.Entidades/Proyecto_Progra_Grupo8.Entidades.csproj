@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\CategoriaEvento.cs" />
     <Compile Include="Models\DetalleOrden.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\ImagenEvento.cs" />

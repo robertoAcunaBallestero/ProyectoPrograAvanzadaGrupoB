@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComprasDbContext.cs" />
     <Compile Include="Migrations\202607282203348_initial.cs" />
     <Compile Include="Migrations\202607282203348_initial.Designer.cs">
       <DependentUpon>202607282203348_initial.cs</DependentUpon>
@@ -71,6 +70,8 @@
     <Compile Include="Repositories\ICarteleraRepository.cs" />
     <Compile Include="Repositories\ICompraRepository.cs" />
     <Compile Include="Repositories\IEventoRepository.cs" />
+    <Compile Include="Repositories\IUsuarioRepository.cs" />
+    <Compile Include="Repositories\UsuarioRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Proyecto_Progra_Grupo8.Entidades\Proyecto_Progra_Grupo8.Entidades.csproj">

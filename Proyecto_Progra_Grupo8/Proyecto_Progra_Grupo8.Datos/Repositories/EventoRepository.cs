@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace Proyecto_Progra_Grupo8.Datos.Repositories
 {
-
     public class EventoRepository : IEventoRepository
     {
         private readonly ProyectoDbContext _context;
@@ -21,20 +20,22 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
             _context = context;
         }
 
-
         public IEnumerable<Evento> ObtenerTodos()
         {
             return _context.Eventos
+                .Include(e => e.CategoriaEvento)
+                .Include(e => e.Imagenes)
                 .AsNoTracking()
                 .OrderBy(e => e.FechaHora)
                 .ThenBy(e => e.Nombre)
                 .ToList();
         }
 
-
         public IEnumerable<Evento> ObtenerActivos()
         {
             return _context.Eventos
+                .Include(e => e.CategoriaEvento)
+                .Include(e => e.Imagenes)
                 .AsNoTracking()
                 .Where(e => e.Activo)
                 .OrderBy(e => e.FechaHora)
@@ -42,12 +43,20 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
                 .ToList();
         }
 
-
         public Evento ObtenerPorId(int eventoId)
         {
-            return _context.Eventos.Find(eventoId);
+            return _context.Eventos
+                .Include(e => e.CategoriaEvento)
+                .Include(e => e.Imagenes)
+                .FirstOrDefault(e => e.EventoId == eventoId);
         }
 
+        public ImagenEvento ObtenerImagen(int imagenId)
+        {
+            return _context.ImagenesEventos
+                .AsNoTracking()
+                .FirstOrDefault(i => i.ImagenId == imagenId);
+        }
 
         public bool ExisteCodigo(
             string codigoEvento,
@@ -58,12 +67,10 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
                 e.EventoId != eventoIdExcluido);
         }
 
-
         public int ContarActivos()
         {
             return _context.Eventos.Count(e => e.Activo);
         }
-
 
         public void Agregar(Evento evento)
         {
@@ -74,7 +81,6 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
 
             _context.Eventos.Add(evento);
         }
-
 
         public void Actualizar(Evento evento)
         {
@@ -87,12 +93,10 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
                 EntityState.Modified;
         }
 
-
         public void Guardar()
         {
             _context.SaveChanges();
         }
-
 
         public void Dispose()
         {

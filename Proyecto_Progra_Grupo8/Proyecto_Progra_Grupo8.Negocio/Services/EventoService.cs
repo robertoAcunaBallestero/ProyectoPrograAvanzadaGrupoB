@@ -9,11 +9,9 @@ using System.Web;
 
 namespace Proyecto_Progra_Grupo8.Negocio.Services
 {
-
     public class EventoService : IEventoService
     {
         private readonly IEventoRepository _eventoRepository;
-
 
         public EventoService(IEventoRepository eventoRepository)
         {
@@ -26,18 +24,15 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             _eventoRepository = eventoRepository;
         }
 
-
         public IEnumerable<Evento> ObtenerTodos()
         {
             return _eventoRepository.ObtenerTodos();
         }
 
-
         public IEnumerable<Evento> ObtenerCatalogo()
         {
             return _eventoRepository.ObtenerActivos();
         }
-
 
         public Evento ObtenerDetalle(int eventoId)
         {
@@ -49,7 +44,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             return _eventoRepository.ObtenerPorId(eventoId);
         }
 
-
         public Evento ObtenerParaEdicion(int eventoId)
         {
             if (eventoId <= 0)
@@ -60,12 +54,20 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             return _eventoRepository.ObtenerPorId(eventoId);
         }
 
+        public ImagenEvento ObtenerImagen(int imagenId)
+        {
+            if (imagenId <= 0)
+            {
+                return null;
+            }
+
+            return _eventoRepository.ObtenerImagen(imagenId);
+        }
 
         public int ContarActivos()
         {
             return _eventoRepository.ContarActivos();
         }
-
 
         public bool CodigoDisponible(
             string codigoEvento,
@@ -87,13 +89,14 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             return !existe;
         }
 
-
         public ResultadoOperacion Crear(Evento evento)
         {
             return Crear(evento, null);
         }
 
-        public ResultadoOperacion Crear(Evento evento, IEnumerable<HttpPostedFileBase> imagenes)
+        public ResultadoOperacion Crear(
+            Evento evento,
+            IEnumerable<HttpPostedFileBase> imagenes)
         {
             ResultadoOperacion validacion =
                 ValidarDatosGenerales(evento);
@@ -124,7 +127,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
                     "Ya existe un evento con el mismo código.");
             }
 
-
             evento.EntradasDisponibles =
                 evento.AforoTotal;
 
@@ -132,26 +134,35 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
 
             if (evento.Imagenes == null)
             {
-                evento.Imagenes = new List<ImagenEvento>();
+                evento.Imagenes =
+                    new List<ImagenEvento>();
             }
 
             if (imagenes != null && imagenes.Any())
             {
                 foreach (var archivo in imagenes)
                 {
-                    if (archivo != null && archivo.ContentLength > 0)
+                    if (archivo != null &&
+                        archivo.ContentLength > 0)
                     {
                         byte[] bytesImagen;
-                        using (var binaryReader = new BinaryReader(archivo.InputStream))
+
+                        using (var binaryReader =
+                            new BinaryReader(
+                                archivo.InputStream))
                         {
-                            bytesImagen = binaryReader.ReadBytes(archivo.ContentLength);
+                            bytesImagen =
+                                binaryReader.ReadBytes(
+                                    archivo.ContentLength);
                         }
 
-                        evento.Imagenes.Add(new ImagenEvento
-                        {
-                            Archivo = bytesImagen,
-                            TipoContenido = archivo.ContentType
-                        });
+                        evento.Imagenes.Add(
+                            new ImagenEvento
+                            {
+                                Archivo = bytesImagen,
+                                TipoContenido =
+                                    archivo.ContentType
+                            });
                     }
                 }
             }
@@ -174,13 +185,14 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             }
         }
 
-
         public ResultadoOperacion Actualizar(Evento evento)
         {
             return Actualizar(evento, null);
         }
 
-        public ResultadoOperacion Actualizar(Evento evento, IEnumerable<HttpPostedFileBase> nuevasImagenes)
+        public ResultadoOperacion Actualizar(
+            Evento evento,
+            IEnumerable<HttpPostedFileBase> nuevasImagenes)
         {
             ResultadoOperacion validacion =
                 ValidarDatosGenerales(evento);
@@ -222,7 +234,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
                     "Ya existe otro evento con el mismo código.");
             }
 
-
             eventoExistente.CodigoEvento =
                 evento.CodigoEvento;
 
@@ -244,11 +255,9 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             eventoExistente.PrecioEntrada =
                 evento.PrecioEntrada;
 
-
             int entradasVendidas =
                 eventoExistente.AforoTotal -
                 eventoExistente.EntradasDisponibles;
-
 
             if (evento.AforoTotal < entradasVendidas)
             {
@@ -267,24 +276,37 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             eventoExistente.Activo =
                 evento.Activo;
 
-            if (nuevasImagenes != null && nuevasImagenes.Any(img => img != null && img.ContentLength > 0))
+            if (nuevasImagenes != null &&
+                nuevasImagenes.Any(
+                    img =>
+                        img != null &&
+                        img.ContentLength > 0))
             {
                 if (eventoExistente.Imagenes == null)
                 {
-                    eventoExistente.Imagenes = new List<ImagenEvento>();
+                    eventoExistente.Imagenes =
+                        new List<ImagenEvento>();
                 }
 
                 foreach (var archivo in nuevasImagenes)
                 {
-                    if (archivo != null && archivo.ContentLength > 0)
+                    if (archivo != null &&
+                        archivo.ContentLength > 0)
                     {
-                        using (var binaryReader = new BinaryReader(archivo.InputStream))
+                        using (var binaryReader =
+                            new BinaryReader(
+                                archivo.InputStream))
                         {
-                            eventoExistente.Imagenes.Add(new ImagenEvento
-                            {
-                                Archivo = binaryReader.ReadBytes(archivo.ContentLength),
-                                TipoContenido = archivo.ContentType
-                            });
+                            eventoExistente.Imagenes.Add(
+                                new ImagenEvento
+                                {
+                                    Archivo =
+                                        binaryReader.ReadBytes(
+                                            archivo.ContentLength),
+
+                                    TipoContenido =
+                                        archivo.ContentType
+                                });
                         }
                     }
                 }
@@ -310,9 +332,7 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             }
         }
 
-
-        public ResultadoOperacion Desactivar(
-            int eventoId)
+        public ResultadoOperacion Desactivar(int eventoId)
         {
             if (eventoId <= 0)
             {
@@ -357,7 +377,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
                     "Ocurrió un error al desactivar el evento.");
             }
         }
-
 
         private ResultadoOperacion ValidarDatosGenerales(
             Evento evento)
@@ -427,7 +446,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
                 "Los datos del evento son válidos.");
         }
 
-
         private void NormalizarTextos(Evento evento)
         {
             evento.CodigoEvento =
@@ -444,7 +462,6 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
             evento.Lugar =
                 evento.Lugar.Trim();
         }
-
 
         public void Dispose()
         {
