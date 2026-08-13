@@ -1,8 +1,88 @@
 ﻿@{
-    ViewBag.Title = "Cuenta bloqueada";
+    ViewBag.Title = "Cuenta Bloqueada";
 }
 
-<h2>@ViewBag.Title.</h2>
-<p class="text-danger">
-    Esta cuenta ha sido bloqueada temporalmente debido a varios intentos de inicio de sesión inválidos. Intente de nuevo más tarde.
-</p>
+<!-- Carga de Font Awesome para los íconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    .lockout-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lockout-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .lockout-header {
+        background: linear-gradient(135deg, #d32f2f 0%, #9a0007 100%);
+        color: white;
+        padding: 2.5rem 2rem;
+        text-align: center;
+    }
+
+    .btn-lockout-primary {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border: none;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-lockout-primary:hover {
+        background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+    }
+</style>
+
+<div class="container lockout-container my-4">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+            <div class="card lockout-card">
+                
+                <!-- Encabezado con degradado de advertencia e ícono -->
+                <div class="lockout-header">
+                    <div class="mb-3">
+                        <i class="fa-solid fa-user-lock fa-4x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Acceso Restringido</h3>
+                    <p class="mb-0 text-white-50">Seguridad del sistema</p>
+                </div>
+
+                <!-- Cuerpo del Mensaje -->
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger p-3 mb-4 rounded-3">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        <strong>Esta cuenta ha sido bloqueada temporalmente</strong> debido a múltiples intentos fallidos de inicio de sesión.
+                    </div>
+
+                    <p class="text-muted small mb-4">
+                        Por motivos de seguridad para proteger la información de nuestros asociados, debes esperar unos minutos antes de intentar acceder nuevamente.
+                    </p>
+
+                    <!-- Acciones -->
+                    <div class="d-grid gap-2">
+                        @Html.ActionLink("Volver al Inicio", "Index", "Home", null, new { @class = "btn btn-lockout-primary shadow-sm" })
+                    </div>
+
+                    <div class="pt-3 mt-4 border-top">
+                        <span class="text-muted small">¿Necesitas ayuda?</span> <br />
+                        @Html.ActionLink("Intentar iniciar sesión de nuevo", "Login", "Account", null, new { @class = "fw-bold text-decoration-none text-primary small" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

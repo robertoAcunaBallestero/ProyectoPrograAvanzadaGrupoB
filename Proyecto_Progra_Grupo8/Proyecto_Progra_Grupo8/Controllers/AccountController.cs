@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Proyecto_Progra_Grupo8.Models;
 using Proyecto_Progra_Grupo8.Entidades.Models;
+using Unity;
 
 namespace Proyecto_Progra_Grupo8.Controllers
 {
@@ -16,6 +17,7 @@ namespace Proyecto_Progra_Grupo8.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        [InjectionConstructor]
         public AccountController()
         {
         }
