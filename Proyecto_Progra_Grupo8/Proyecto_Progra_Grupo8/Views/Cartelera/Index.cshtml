@@ -1,87 +1,183 @@
 ﻿@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.Evento>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cartelera";
 }
 
-<h2>Index</h2>
+<div class="container py-4">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoEvento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoriaEventoId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaHora)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lugar)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrecioEntrada)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AforoTotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EntradasDisponibles)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Activo)
-        </th>
-        <th></th>
-    </tr>
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Cartelera de Eventos</h1>
+        <p class="text-muted">
+            Descubre nuestros próximos eventos y reserva tus entradas.
+        </p>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoEvento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CategoriaEventoId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaHora)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lugar)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioEntrada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AforoTotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EntradasDisponibles)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventoId })
-        </td>
-    </tr>
-}
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
 
-</table>
+            @foreach (var evento in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h4 class="card-title">
+                                @evento.Nombre
+                            </h4>
+
+                            <p class="text-muted mb-2">
+                                @evento.CategoriaEventoId
+                            </p>
+
+                            <p class="card-text">
+                                @evento.Descripcion
+                            </p>
+
+                            <div class="mt-auto">
+
+                                <p class="mb-1">
+                                    <strong>Fecha:</strong>
+                                    @evento.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Lugar:</strong>
+                                    @evento.Lugar
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Precio:</strong>
+                                    ₡@evento.PrecioEntrada.ToString("N2")
+                                </p>
+
+                                <p class="mb-3">
+                                    <strong>Entradas disponibles:</strong>
+                                    @evento.EntradasDisponibles
+                                </p>
+
+                                <div class="d-grid">
+
+                                    @Html.ActionLink(
+                                        "Ver detalles",
+                                        "Detalle",
+                                        "Cartelera",
+                                        new { id = evento.EventoId },
+                                        new { @class = "btn btn-primary" }
+                                    )
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            Actualmente no hay eventos disponibles.
+        </div>
+    }
+
+</div>
+
+
+
+
+@*@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.Evento>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoEvento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoriaEventoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lugar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioEntrada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AforoTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntradasDisponibles)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activo)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoEvento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoriaEventoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lugar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioEntrada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AforoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntradasDisponibles)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.EventoId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.EventoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.EventoId })
+            </td>
+        </tr>
+    }
+
+    </table>*@
