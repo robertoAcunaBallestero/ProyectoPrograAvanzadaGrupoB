@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.Evento>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoEvento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoriaEventoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaHora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lugar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrecioEntrada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AforoTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntradasDisponibles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoEvento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoriaEventoId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaHora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lugar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioEntrada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AforoTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntradasDisponibles)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EventoId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EventoId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventoId })
+        </td>
+    </tr>
+}
+
+</table>

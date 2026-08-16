@@ -252,10 +252,11 @@
     <Content Include="Views\Administracion\Index.cshtml" />
     <Content Include="Views\Home\Panel.cshtml" />
     <Content Include="Views\Account\Lockout.cshtml" />
+    <Content Include="Views\Cartelera\Index.cshtml" />
+    <Content Include="Views\Cartelera\Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cartelera\" />
     <Folder Include="Views\Eventos\" />
   </ItemGroup>
   <ItemGroup>

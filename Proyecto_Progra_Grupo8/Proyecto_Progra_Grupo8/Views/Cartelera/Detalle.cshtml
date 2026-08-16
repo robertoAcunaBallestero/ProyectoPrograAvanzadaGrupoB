@@ -1,0 +1,98 @@
+﻿@model Proyecto_Progra_Grupo8.Entidades.Models.Evento
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle</h2>
+
+<div>
+    <h4>Evento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoEvento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoEvento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoriaEventoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoriaEventoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaHora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaHora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lugar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lugar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioEntrada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioEntrada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AforoTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AforoTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EntradasDisponibles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntradasDisponibles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EventoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
