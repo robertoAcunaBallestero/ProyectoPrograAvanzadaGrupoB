@@ -254,6 +254,10 @@
     <Content Include="Views\Account\Lockout.cshtml" />
     <Content Include="Views\Cartelera\Index.cshtml" />
     <Content Include="Views\Cartelera\Detalle.cshtml" />
+    <Content Include="Views\Carrito\Index.cshtml" />
+    <Content Include="Views\Ordenes\Detalle.cshtml" />
+    <Content Include="Views\Ordenes\Index.cshtml" />
+    <Content Include="Views\Shared\_Mensajes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

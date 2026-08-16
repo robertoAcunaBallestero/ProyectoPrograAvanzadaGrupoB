@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.Orden>
+
+@{
+    ViewBag.Title = "Historial de compras";
+}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-4">
+        <h1>Historial de compras</h1>
+        <p class="text-muted">
+            Consulte sus órdenes y los tickets generados.
+        </p>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Orden</th>
+                        <th>Fecha de compra</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var orden in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                #@orden.OrdenId
+                            </td>
+
+                            <td>
+                                @orden.FechaCompra.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+
+                            <td>
+                                ₡@orden.Total.ToString("N2")
+                            </td>
+
+                            <td>
+                                @Html.ActionLink(
+                                    "Ver detalle",
+                                    "Detalle",
+                                    "Ordenes",
+                                    new { id = orden.OrdenId },
+                                    new { @class = "btn btn-primary btn-sm" }
+                                )
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            No tiene compras registradas.
+        </div>
+    }
+
+</div>
+
+
+
+
+@*@{
+        ViewBag.Title = "Index";
+    }
+
+    <h2>Index</h2>*@
+
