@@ -1,0 +1,86 @@
+﻿@model Proyecto_Progra_Grupo8.Entidades.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Mi Cuenta";
+}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-4">
+        <h1>Mi Cuenta</h1>
+        <p class="text-muted">
+            Consulta tus datos personales y de asociado.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="card-title mb-4">
+                Información personal
+            </h4>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Nombre completo:</strong>
+                    <p class="mb-0">
+                        @Model.NombreCompleto
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Cédula:</strong>
+                    <p class="mb-0">
+                        @Model.Cedula
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Correo electrónico:</strong>
+                    <p class="mb-0">
+                        @Model.Email
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Número de asociado:</strong>
+                    <p class="mb-0">
+                        @Model.NumeroAsociado
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Fecha de nacimiento:</strong>
+                    <p class="mb-0">
+                        @Model.FechaNacimiento.ToString("dd/MM/yyyy")
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Fecha de ingreso:</strong>
+                    <p class="mb-0">
+                        @Model.FechaIngreso.ToString("dd/MM/yyyy")
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+
+        @Html.ActionLink(
+            "Volver al panel",
+            "Panel",
+            "Home",
+            null,
+            new { @class = "btn btn-secondary" }
+        )
+
+    </div>
+
+</div>

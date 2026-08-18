@@ -132,6 +132,21 @@ namespace Proyecto_Progra_Grupo8.Controllers
             return View();
         }
 
+        // GET: /Account/Perfil
+        public ActionResult Perfil()
+        {
+            string usuarioId = User.Identity.GetUserId();
+
+            ApplicationUser usuario = UserManager.FindById(usuarioId);
+
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(usuario);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

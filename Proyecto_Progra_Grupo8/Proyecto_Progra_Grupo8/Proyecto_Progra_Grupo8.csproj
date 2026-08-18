@@ -258,6 +258,7 @@
     <Content Include="Views\Ordenes\Detalle.cshtml" />
     <Content Include="Views\Ordenes\Index.cshtml" />
     <Content Include="Views\Shared\_Mensajes.cshtml" />
+    <Content Include="Views\Account\Perfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

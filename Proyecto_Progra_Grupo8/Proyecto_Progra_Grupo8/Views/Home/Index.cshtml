@@ -105,7 +105,7 @@
 
     <!-- Tarjetas Informativas / Accesos Rápidos -->
     <section class="row g-4 mt-2">
-        <div class="col-md-4">
+        @*<div class="col-md-4">
             <div class="card feature-card h-100 p-4 shadow-sm">
                 <div class="card-body text-center d-flex flex-column align-items-center">
                     <div class="feature-icon">
@@ -117,9 +117,36 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="col-md-4">
+            <a href="@Url.Action("Perfil", "Account")"
+               class="text-decoration-none text-dark">
+
+                <div class="card feature-card h-100 p-4 shadow-sm">
+
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <h5 class="card-title fw-bold text-dark">
+                            Asociados
+                        </h5>
+
+                        <p class="card-text text-muted small">
+                            Acceso rápido a tu información personal, número de asociado y estado dentro de la cooperativa.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+
+        @*<div class="col-md-4">
             <div class="card feature-card h-100 p-4 shadow-sm">
                 <div class="card-body text-center d-flex flex-column align-items-center">
                     <div class="feature-icon">
@@ -131,6 +158,22 @@
                     </p>
                 </div>
             </div>
+        </div>*@
+
+        <div class="col-md-4">
+            <a href="@Url.Action("Index", "Cartelera")" class="text-decoration-none text-dark">
+                <div class="card feature-card h-100 p-4 shadow-sm">
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-dark">Eventos y Cartelera</h5>
+                        <p class="card-text text-muted small">
+                            Entérate de las últimas actividades, boletines y eventos disponibles para los miembros.
+                        </p>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <div class="col-md-4">
