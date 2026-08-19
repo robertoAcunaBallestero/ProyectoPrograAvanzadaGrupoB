@@ -1,0 +1,451 @@
+﻿@model Proyecto_Progra_Grupo8.ViewModels.DashboardViewModel
+
+@using System.Globalization
+@using System.Linq
+@using System.Web
+
+@{
+    ViewBag.Title = "Dashboard";
+
+    var ingresos = Model.IngresosPorEvento != null
+        ? Model.IngresosPorEvento.ToList()
+        : new List<KeyValuePair<string, decimal>>();
+
+    var etiquetas = string.Join(",",
+        ingresos.Select(x =>
+            "'" + HttpUtility.JavaScriptStringEncode(x.Key) + "'"));
+
+    var valores = string.Join(",",
+        ingresos.Select(x =>
+            x.Value.ToString(
+                CultureInfo.InvariantCulture)));
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="mb-1">
+                Dashboard Administrativo
+            </h2>
+
+            <p class="text-muted mb-0">
+                Resumen general de la actividad de la plataforma.
+            </p>
+        </div>
+
+        @Html.ActionLink(
+            "Volver al panel",
+            "Panel",
+            "Home",
+            null,
+            new
+            {
+                @class = "btn btn-secondary"
+            })
+
+    </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Usuarios registrados
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TotalUsuarios
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-primary">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Eventos activos
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TotalEventosActivos
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-success">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Eventos próximos
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TotalEventosProximos
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-info">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Órdenes realizadas
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TotalOrdenes
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-warning">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Entradas vendidas
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.EntradasVendidas
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-danger">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Ingresos totales
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                ₡@Model.IngresosTotales.ToString("N2")
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-success">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-12 col-lg-7">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Ingresos por evento
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (ingresos.Any())
+                    {
+                        <canvas id="graficoIngresos"
+                                style="max-height: 350px;">
+                        </canvas>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info mb-0">
+                            Todavía no existen ventas para mostrar en el gráfico.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-lg-5">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Eventos con bajo aforo
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (Model.EventosBajoAforo == null ||
+                         !Model.EventosBajoAforo.Any())
+                    {
+                        <div class="alert alert-success mb-0">
+                            No hay eventos próximos a agotarse.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Evento</th>
+                                        <th class="text-center">
+                                            Disponibles
+                                        </th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (var evento in Model.EventosBajoAforo)
+                                    {
+                                        <tr>
+
+                                            <td>
+
+                                                <strong>
+                                                    @evento.Nombre
+                                                </strong>
+
+                                                <div class="small text-muted">
+                                                    @evento.FechaHora.ToString("dd/MM/yyyy")
+                                                </div>
+
+                                            </td>
+
+                                            <td class="text-center">
+
+                                                <span class="badge bg-danger">
+                                                    @evento.EntradasDisponibles
+                                                </span>
+
+                                                <div class="small text-muted mt-1">
+                                                    de @evento.AforoTotal
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (ingresos.Any())
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                var canvas =
+                    document.getElementById(
+                        "graficoIngresos");
+
+                if (!canvas) {
+                    return;
+                }
+
+                var contexto =
+                    canvas.getContext("2d");
+
+                new Chart(
+                    contexto,
+                    {
+                        type: "bar",
+
+                        data: {
+                            labels: [
+                                @Html.Raw(etiquetas)
+                            ],
+
+                            datasets: [
+                                {
+                                    label: "Ingresos",
+                                    data: [
+                                        @Html.Raw(valores)
+                                    ]
+                                }
+                            ]
+                        },
+
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+
+                                    ticks: {
+                                        callback: function (value) {
+                                            return "₡" +
+                                                value.toLocaleString();
+                                        }
+                                    }
+                                }
+                            },
+
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return "₡" +
+                                                context.raw
+                                                    .toLocaleString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+            });
+
+    </script>
+}

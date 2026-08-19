@@ -2,6 +2,10 @@
 using System;
 using System.Collections.Generic;
 
+using Proyecto_Progra_Grupo8.Entidades.Models;
+using System;
+using System.Collections.Generic;
+
 namespace Proyecto_Progra_Grupo8.Datos.Repositories
 {
     public interface ICompraRepository : IDisposable
@@ -16,5 +20,14 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
         Orden ObtenerOrdenUsuario(
             int ordenId,
             string usuarioId);
+
+        int ContarOrdenes();
+
+        int ContarEntradasVendidas();
+
+        decimal ObtenerIngresosTotales();
+
+        IDictionary<string, decimal>
+            ObtenerIngresosPorEvento();
     }
 }

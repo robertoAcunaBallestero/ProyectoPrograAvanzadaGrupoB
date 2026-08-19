@@ -1,0 +1,146 @@
+﻿@model Proyecto_Progra_Grupo8.Entidades.Models.Evento
+
+@{
+    ViewBag.Title = "Desactivar evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-header bg-danger text-white">
+
+                    <h4 class="mb-0">
+                        Desactivar evento
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        ¿Está seguro de que desea desactivar este evento?
+                        El evento dejará de mostrarse como activo en la cartelera.
+                    </div>
+
+                    <dl class="row">
+
+                        <dt class="col-sm-4">
+                            Código
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.CodigoEvento
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Nombre
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Nombre
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Fecha y hora
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Lugar
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Lugar
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Aforo total
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.AforoTotal
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Entradas disponibles
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.EntradasDisponibles
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Estado actual
+                        </dt>
+
+                        <dd class="col-sm-8">
+
+                            @if (Model.Activo)
+                            {
+                                <span class="badge bg-success">
+                                    Activo
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    Inactivo
+                                </span>
+                            }
+
+                        </dd>
+
+                    </dl>
+
+                    <hr />
+
+                    @using (Html.BeginForm(
+                        "Desactivar",
+                        "Eventos",
+                        new
+                        {
+                            id = Model.EventoId
+                        },
+                        FormMethod.Post,
+                        null))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            @Html.ActionLink(
+                                "Cancelar",
+                                "Index",
+                                "Eventos",
+                                null,
+                                new
+                                {
+                                    @class = "btn btn-secondary"
+                                })
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+                                Desactivar evento
+                            </button>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

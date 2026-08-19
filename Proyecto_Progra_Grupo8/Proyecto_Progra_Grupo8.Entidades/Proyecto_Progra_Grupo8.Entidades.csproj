@@ -63,6 +63,7 @@
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\ImagenEvento.cs" />
     <Compile Include="Models\Orden.cs" />
+    <Compile Include="Models\Resena.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

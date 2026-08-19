@@ -40,6 +40,10 @@ namespace Proyecto_Progra_Grupo8
                 <IUsuarioRepository, UsuarioRepository>(
                     new HierarchicalLifetimeManager());
 
+            container.RegisterType
+                <IResenaRepository, ResenaRepository>(
+                    new HierarchicalLifetimeManager());
+
             // Servicios
             container.RegisterType
                 <IEventoService, EventoService>(
@@ -57,12 +61,19 @@ namespace Proyecto_Progra_Grupo8
                 <IUsuarioService, UsuarioService>(
                     new HierarchicalLifetimeManager());
 
+            container.RegisterType
+                <IResenaService, ResenaService>(
+                    new HierarchicalLifetimeManager());
+
             // Registro explícito para AccountController usando OWIN / Identity
             container.RegisterType<AccountController>(
                 new InjectionConstructor());
 
             container.RegisterType<IAuthenticationManager>(
-                new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
+                new InjectionFactory(c =>
+                    HttpContext.Current
+                        .GetOwinContext()
+                        .Authentication));
 
             DependencyResolver.SetResolver(
                 new UnityDependencyResolver(container));

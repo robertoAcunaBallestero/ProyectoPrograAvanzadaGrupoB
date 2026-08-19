@@ -1,0 +1,232 @@
+﻿@model Proyecto_Progra_Grupo8.Entidades.Models.Evento
+
+@using System.Linq
+
+@{
+    ViewBag.Title = "Detalle del evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-9">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        Detalle del evento
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Código:</strong>
+
+                            <div>
+                                @Model.CodigoEvento
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Nombre:</strong>
+
+                            <div>
+                                @Model.Nombre
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>Descripción:</strong>
+
+                        <div class="mt-1">
+                            @Model.Descripcion
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Categoría:</strong>
+
+                            <div>
+                                @if (Model.CategoriaEvento != null)
+                                {
+                                    @Model.CategoriaEvento.Nombre
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Fecha y hora:</strong>
+
+                            <div>
+                                @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Lugar:</strong>
+
+                            <div>
+                                @Model.Lugar
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Precio de entrada:</strong>
+
+                            <div>
+                                ₡@Model.PrecioEntrada.ToString("N2")
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <strong>Aforo total:</strong>
+
+                            <div>
+                                @Model.AforoTotal
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <strong>Entradas disponibles:</strong>
+
+                            <div>
+                                @Model.EntradasDisponibles
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <strong>Estado:</strong>
+
+                            <div>
+
+                                @if (Model.Activo)
+                                {
+                                    <span class="badge bg-success">
+                                        Activo
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">
+                                        Inactivo
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @if (Model.Imagenes != null &&
+                         Model.Imagenes.Any())
+                    {
+                        <hr />
+
+                        <h5 class="mb-3">
+                            Imágenes del evento
+                        </h5>
+
+                        <div class="row g-3">
+
+                            @foreach (var imagen in Model.Imagenes)
+                            {
+                                <div class="col-md-4">
+
+                                    <img src="@Url.Action(
+                                        "Imagen",
+                                        "Eventos",
+                                        new
+                                        {
+                                            id = imagen.ImagenId
+                                        })"
+                                         class="img-fluid rounded border"
+                                         style="width: 100%; height: 180px; object-fit: cover;"
+                                         alt="@Model.Nombre" />
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                    <hr class="mt-4" />
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        @Html.ActionLink(
+                            "Volver",
+                            "Index",
+                            "Eventos",
+                            null,
+                            new
+                            {
+                                @class = "btn btn-secondary"
+                            })
+
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            @Html.ActionLink(
+                                "Editar",
+                                "Edit",
+                                "Eventos",
+                                new
+                                {
+                                    id = Model.EventoId
+                                },
+                                new
+                                {
+                                    @class = "btn btn-primary"
+                                })
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

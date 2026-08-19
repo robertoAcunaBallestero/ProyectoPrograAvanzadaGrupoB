@@ -31,6 +31,8 @@ namespace Proyecto_Progra_Grupo8.Datos
 
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<Resena> Resenas { get; set; }
+
         public static ProyectoDbContext Create()
         {
             return new ProyectoDbContext();
@@ -59,6 +61,9 @@ namespace Proyecto_Progra_Grupo8.Datos
 
             modelBuilder.Entity<Ticket>()
                 .ToTable("Tickets");
+
+            modelBuilder.Entity<Resena>()
+                .ToTable("Resenas");
 
             // Precisión de valores monetarios
             modelBuilder.Entity<Evento>()
@@ -107,6 +112,20 @@ namespace Proyecto_Progra_Grupo8.Datos
                 .WithMany(d => d.Tickets)
                 .HasForeignKey(t => t.DetalleOrdenId)
                 .WillCascadeOnDelete(true);
+
+            // Un evento puede tener muchas reseñas
+            modelBuilder.Entity<Resena>()
+                .HasRequired(r => r.Evento)
+                .WithMany()
+                .HasForeignKey(r => r.EventoId)
+                .WillCascadeOnDelete(false);
+
+            // Un usuario puede tener muchas reseñas
+            modelBuilder.Entity<Resena>()
+                .HasRequired(r => r.Usuario)
+                .WithMany()
+                .HasForeignKey(r => r.UsuarioId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

@@ -7,9 +7,11 @@ namespace Proyecto_Progra_Grupo8.Controllers
     public class CarteleraController : Controller
     {
         private readonly ICarteleraService _service;
+        private readonly IResenaService _resenaService;
 
         public CarteleraController(
-            ICarteleraService service)
+            ICarteleraService service,
+            IResenaService resenaService)
         {
             if (service == null)
             {
@@ -17,7 +19,14 @@ namespace Proyecto_Progra_Grupo8.Controllers
                     nameof(service));
             }
 
+            if (resenaService == null)
+            {
+                throw new ArgumentNullException(
+                    nameof(resenaService));
+            }
+
             _service = service;
+            _resenaService = resenaService;
         }
 
         [AllowAnonymous]
@@ -37,6 +46,10 @@ namespace Proyecto_Progra_Grupo8.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Resenas =
+                _resenaService
+                    .ObtenerAprobadasPorEvento(id);
 
             return View(evento);
         }
@@ -70,6 +83,7 @@ namespace Proyecto_Progra_Grupo8.Controllers
             if (disposing)
             {
                 _service.Dispose();
+                _resenaService.Dispose();
             }
 
             base.Dispose(disposing);

@@ -16,5 +16,14 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
         Orden DetalleOrden(
             int ordenId,
             string usuarioId);
+
+        int ContarOrdenes();
+
+        int ContarEntradasVendidas();
+
+        decimal ObtenerIngresosTotales();
+
+        IDictionary<string, decimal>
+            ObtenerIngresosPorEvento();
     }
 }

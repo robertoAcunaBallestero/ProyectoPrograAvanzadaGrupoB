@@ -66,7 +66,9 @@
     <Compile Include="Services\ICarteleraService.cs" />
     <Compile Include="Services\ICompraService.cs" />
     <Compile Include="Services\IEventoService.cs" />
+    <Compile Include="Services\IResenaService.cs" />
     <Compile Include="Services\IUsuarioService.cs" />
+    <Compile Include="Services\ResenaService.cs" />
     <Compile Include="Services\UsuarioService.cs" />
   </ItemGroup>
   <ItemGroup>

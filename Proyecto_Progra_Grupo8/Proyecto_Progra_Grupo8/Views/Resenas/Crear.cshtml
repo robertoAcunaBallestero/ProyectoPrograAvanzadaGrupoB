@@ -1,0 +1,100 @@
+﻿@model Proyecto_Progra_Grupo8.Entidades.Models.Resena
+
+@{
+    ViewBag.Title = "Crear reseña";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <h2>Crear reseña</h2>
+            <hr />
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-3">
+                        @ViewBag.NombreEvento
+                    </h5>
+
+                    <p class="text-muted">
+                        Escriba su opinión sobre el evento.
+                        La reseña será revisada por un administrador
+                        antes de publicarse.
+                    </p>
+
+                    @using (Html.BeginForm(
+                        "Crear",
+                        "Resenas",
+                        FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(
+                            model => model.EventoId)
+
+                        @Html.ValidationSummary(
+                            true,
+                            "",
+                            new
+                            {
+                                @class = "alert alert-danger"
+                            })
+
+                        <div class="mb-3">
+                            @Html.LabelFor(
+                                model => model.Comentario,
+                                new
+                                {
+                                    @class = "form-label fw-bold"
+                                })
+
+                            @Html.TextAreaFor(
+                                model => model.Comentario,
+                                new
+                                {
+                                    @class = "form-control",
+                                    rows = "5",
+                                    maxlength = "1000",
+                                    placeholder =
+                                        "Escriba aquí su comentario..."
+                                })
+
+                            @Html.ValidationMessageFor(
+                                model => model.Comentario,
+                                "",
+                                new
+                                {
+                                    @class = "text-danger"
+                                })
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            @Html.ActionLink(
+                                "Cancelar",
+                                "Index",
+                                "Ordenes",
+                                null,
+                                new
+                                {
+                                    @class = "btn btn-secondary"
+                                })
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Enviar reseña
+                            </button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

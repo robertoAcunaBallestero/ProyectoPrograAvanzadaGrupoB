@@ -1,0 +1,433 @@
+﻿@@model Proyecto_Progra_Grupo8.ViewModels.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Crear usuario";
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    .register-container {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 2.5rem 2rem;
+        text-align: center;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border: none;
+        color: white;
+        padding: 0.8rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border-right: none;
+    }
+
+    .form-control-with-icon {
+        border-left: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #1e3c72;
+        box-shadow: none;
+    }
+</style>
+
+<div class="container register-container my-4">
+
+    <div class="row justify-content-center w-100">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card register-card">
+
+                <div class="register-header">
+
+                    <div class="mb-3">
+                        <i class="fa-solid fa-user-plus fa-4x"></i>
+                    </div>
+
+                    <h3 class="fw-bold mb-1">
+                        Crear usuario
+                    </h3>
+
+                    <p class="mb-0 text-white-50">
+                        Registre un nuevo usuario en el sistema
+                    </p>
+
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+
+                    @using (Html.BeginForm(
+                        "Create",
+                        "Administracion",
+                        FormMethod.Post,
+                        new
+                        {
+                            role = "form",
+                            @class = "needs-validation"
+                        }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(
+                            true,
+                            "",
+                            new
+                            {
+                                @class = "alert alert-danger py-2 small"
+                            })
+
+                        <div class="row g-3">
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.NombreCompleto,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+
+                                    @Html.TextBoxFor(
+                                        m => m.NombreCompleto,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "Nombre y apellidos"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.NombreCompleto,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.Cedula,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-address-card"></i>
+                                    </span>
+
+                                    @Html.TextBoxFor(
+                                        m => m.Cedula,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "Identificación"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.Cedula,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.Email,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </span>
+
+                                    @Html.TextBoxFor(
+                                        m => m.Email,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "ejemplo@correo.com"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.Email,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.NumeroAsociado,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                    </span>
+
+                                    @Html.TextBoxFor(
+                                        m => m.NumeroAsociado,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "AS-0000"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.NumeroAsociado,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.FechaNacimiento,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                    </span>
+
+                                    @Html.TextBoxFor(
+                                        m => m.FechaNacimiento,
+                                        "{0:yyyy-MM-dd}",
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            type = "date"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.FechaNacimiento,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.Rol,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-user-shield"></i>
+                                    </span>
+
+                                    @Html.DropDownListFor(
+                                        m => m.Rol,
+                                        (SelectList)ViewBag.Roles,
+                                        new
+                                        {
+                                            @class = "form-select form-control-with-icon"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.Rol,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.Password,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+
+                                    @Html.PasswordFor(
+                                        m => m.Password,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "Mínimo 6 caracteres"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.Password,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+
+                                @Html.LabelFor(
+                                    m => m.ConfirmPassword,
+                                    new
+                                    {
+                                        @class = "form-label fw-semibold"
+                                    })
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </span>
+
+                                    @Html.PasswordFor(
+                                        m => m.ConfirmPassword,
+                                        new
+                                        {
+                                            @class = "form-control form-control-with-icon",
+                                            @placeholder = "Repita la contraseña"
+                                        })
+
+                                </div>
+
+                                @Html.ValidationMessageFor(
+                                    m => m.ConfirmPassword,
+                                    "",
+                                    new
+                                    {
+                                        @class = "text-danger small mt-1 d-block"
+                                    })
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+
+                            @Html.ActionLink(
+                                "Cancelar",
+                                "Index",
+                                "Administracion",
+                                null,
+                                new
+                                {
+                                    @class = "btn btn-secondary"
+                                })
+
+                            <button type="submit"
+                                    class="btn btn-register px-4">
+
+                                <i class="fa-solid fa-user-check me-2"></i>
+                                Guardar usuario
+
+                            </button>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

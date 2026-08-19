@@ -1,10 +1,11 @@
 ﻿@using Microsoft.AspNet.Identity
+
 @{
     ViewBag.Title = "Mi Panel";
 }
 
-<!-- Carga de Font Awesome para los íconos -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <style>
     .panel-header {
@@ -40,10 +41,10 @@
         background: #ffffff;
     }
 
-    .dashboard-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
 
     .card-icon-wrapper {
         width: 55px;
@@ -65,184 +66,354 @@
         transition: all 0.3s ease;
     }
 
-    .btn-panel-action:hover {
-        background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(30, 60, 114, 0.25);
-    }
+        .btn-panel-action:hover {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.25);
+        }
 </style>
 
 <main class="container my-4">
-    <!-- Encabezado del Panel con bienvenida personal -->
+
     <div class="panel-header mb-4">
+
         <div class="row align-items-center">
+
             <div class="col-md-8">
+
                 <div class="d-flex align-items-center gap-3 mb-2">
+
                     <i class="fa-solid fa-circle-user fa-3x text-white-50"></i>
+
                     <div>
-                        <h2 class="fw-bold mb-0">¡Bienvenido, @User.Identity.GetUserName()!</h2>
-                        <p class="text-white-50 mb-0">Panel de control y gestión personal</p>
+
+                        <h2 class="fw-bold mb-0">
+                            ¡Bienvenido, @User.Identity.GetUserName()!
+                        </h2>
+
+                        <p class="text-white-50 mb-0">
+                            Panel de control y gestión personal
+                        </p>
+
                     </div>
+
                 </div>
+
             </div>
+
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
                 @if (User.IsInRole("Administrador"))
                 {
                     <span class="badge badge-role badge-admin shadow-sm">
-                        <i class="fa-solid fa-shield-halved me-1"></i> Rol: Administrador
+                        <i class="fa-solid fa-shield-halved me-1"></i>
+                        Rol: Administrador
                     </span>
                 }
                 else
                 {
                     <span class="badge badge-role badge-asociado shadow-sm">
-                        <i class="fa-solid fa-user-check me-1"></i> Rol: Asociado
+                        <i class="fa-solid fa-user-check me-1"></i>
+                        Rol: Asociado
                     </span>
                 }
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- Sección Dinámica según el Rol -->
     <div class="row g-4">
+
         @if (User.IsInRole("Administrador"))
         {
-            <!-- Tarjeta exclusiva para Administradores -->
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-primary">
+
+                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-dark">
+
                     <div class="card-body">
+
                         <div class="d-flex align-items-center justify-content-between mb-3">
+
+                            <div class="card-icon-wrapper bg-dark bg-opacity-10 text-dark">
+                                <i class="fa-solid fa-chart-column"></i>
+                            </div>
+
+                            <span class="badge bg-dark text-white">
+                                Estadísticas
+                            </span>
+
+                        </div>
+
+                        <h5 class="fw-bold text-dark">
+                            Dashboard
+                        </h5>
+
+                        <p class="text-muted small mb-4">
+                            Consulta estadísticas de usuarios, eventos,
+                            ventas, ingresos y aforo disponible.
+                        </p>
+
+                        <a href="@Url.Action("Dashboard", "Home")"
+                           class="btn btn-panel-action w-100">
+
+                            <i class="fa-solid fa-chart-line me-2"></i>
+                            Ver Dashboard
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-primary">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+
                             <div class="card-icon-wrapper bg-primary bg-opacity-10 text-primary">
                                 <i class="fa-solid fa-users-gear"></i>
                             </div>
-                            <span class="badge bg-primary text-white">Módulo Admin</span>
+
+                            <span class="badge bg-primary text-white">
+                                Usuarios
+                            </span>
+
                         </div>
-                        <h5 class="fw-bold text-dark">Gestión de Asociados</h5>
+
+                        <h5 class="fw-bold text-dark">
+                            Gestión de Usuarios
+                        </h5>
+
                         <p class="text-muted small mb-4">
-                            Consulta la lista completa de miembros registrados, edita roles o administra cuentas.
+                            Consulta, crea, edita y administra los usuarios registrados.
                         </p>
-                        <a href="@Url.Action("Index", "Administracion")" class="btn btn-panel-action w-100">
-                            <i class="fa-solid fa-list-check me-2"></i>Ver Asociados
+
+                        <a href="@Url.Action("Index", "Administracion")"
+                           class="btn btn-panel-action w-100">
+
+                            <i class="fa-solid fa-list-check me-2"></i>
+                            Administrar usuarios
+
                         </a>
+
                     </div>
+
                 </div>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-success">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+
+                            <div class="card-icon-wrapper bg-success bg-opacity-10 text-success">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+
+                            <span class="badge bg-success text-white">
+                                Eventos
+                            </span>
+
+                        </div>
+
+                        <h5 class="fw-bold text-dark">
+                            Gestión de Eventos
+                        </h5>
+
+                        <p class="text-muted small mb-4">
+                            Crea, consulta, edita y desactiva los eventos de la plataforma.
+                        </p>
+
+                        <a href="@Url.Action("Index", "Eventos")"
+                           class="btn btn-panel-action w-100">
+
+                            <i class="fa-solid fa-calendar-check me-2"></i>
+                            Administrar eventos
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-danger">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+
+                            <div class="card-icon-wrapper bg-danger bg-opacity-10 text-danger">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+
+                            <span class="badge bg-danger text-white">
+                                Reseñas
+                            </span>
+
+                        </div>
+
+                        <h5 class="fw-bold text-dark">
+                            Moderar Reseñas
+                        </h5>
+
+                        <p class="text-muted small mb-4">
+                            Revisa las reseñas enviadas por los asociados
+                            y aprueba o rechaza su publicación.
+                        </p>
+
+                        <a href="@Url.Action("Moderar", "Resenas")"
+                           class="btn btn-panel-action w-100">
+
+                            <i class="fa-solid fa-check-double me-2"></i>
+                            Moderar reseñas
+
+                        </a>
+
+                    </div>
+
+                </div>
+
             </div>
         }
         else
         {
-            <!-- Tarjeta general para Asociados -->
             <div class="col-12 col-md-6 col-lg-4">
+
                 <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-info">
+
                     <div class="card-body">
+
                         <div class="d-flex align-items-center justify-content-between mb-3">
+
                             <div class="card-icon-wrapper bg-info bg-opacity-10 text-info">
                                 <i class="fa-solid fa-id-card"></i>
                             </div>
-                            <span class="badge bg-info text-dark">Asociado</span>
-                        </div>
-                        <h5 class="fw-bold text-dark">Estado de Cuenta</h5>
-                        <p class="text-muted small mb-0">
-                            Tu suscripción como asociado se encuentra activa y al día en el sistema de la cooperativa.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        }
 
-        <!-- Tarjetas adicionales de acceso directo para enriquecer la vista -->
-        @*<div class="col-12 col-md-6 col-lg-4">
-            <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-success">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="card-icon-wrapper bg-success bg-opacity-10 text-success">
-                            <i class="fa-solid fa-calendar-days"></i>
-                        </div>
-                        <span class="badge bg-success text-white">Novedades</span>
-                    </div>
-                    <h5 class="fw-bold text-dark">Eventos y Cartelera</h5>
-                    <p class="text-muted small mb-0">
-                        Explora las últimas actividades, comunicados y beneficios vigentes organizados para los asociados.
-                    </p>
-                </div>
-            </div>
-        </div>*@
-
-        @*<div class="col-12 col-md-6 col-lg-4">
-            <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-success">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="card-icon-wrapper bg-success bg-opacity-10 text-success">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
-                        <span class="badge bg-success text-white">Compras</span>
-                    </div>
-                    <h5 class="fw-bold text-dark">Mis compras</h5>
-                    <p class="text-muted small mb-4">
-                        Consulta el historial de tus compras, órdenes y tickets generados.
-                    </p>
-                    <a href="@Url.Action("Index", "Ordenes")" class="btn btn-panel-action w-100">
-                        <i class="fa-solid fa-list me-2"></i>Ver mis compras
-                    </a>
-                </div>
-            </div>
-        </div>*@
-
-        <div class="col-12 col-md-6 col-lg-4">
-            <a href="@Url.Action("Index", "Ordenes")"
-               class="text-decoration-none text-dark">
-
-                <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-success">
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="card-icon-wrapper bg-success bg-opacity-10 text-success">
-                                <i class="fa-solid fa-receipt"></i>
-                            </div>
-
-                            <span class="badge bg-success text-white">
-                                Compras
+                            <span class="badge bg-info text-dark">
+                                Asociado
                             </span>
+
                         </div>
 
                         <h5 class="fw-bold text-dark">
-                            Mis compras
+                            Estado de Cuenta
                         </h5>
 
                         <p class="text-muted small mb-0">
-                            Consulta el historial de tus compras, órdenes y tickets generados.
+                            Tu suscripción como asociado se encuentra activa
+                            y al día en el sistema.
                         </p>
 
                     </div>
+
                 </div>
 
-            </a>
-        </div>
-
-        @*<div class="col-12 col-md-6 col-lg-4">
-            <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-warning">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="card-icon-wrapper bg-warning bg-opacity-10 text-warning">
-                            <i class="fa-solid fa-user-shield"></i>
-                        </div>
-                        <span class="badge bg-warning text-dark">Seguridad</span>
-                    </div>
-                    <h5 class="fw-bold text-dark">Mi Cuenta</h5>
-                    <p class="text-muted small mb-0">
-                        Mantén tus datos seguros y actualiza tus credenciales de acceso cuando lo necesites.
-                    </p>
-                </div>
             </div>
-        </div>*@
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <a href="@Url.Action("Index", "Ordenes")"
+                   class="text-decoration-none text-dark">
+
+                    <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-success">
+
+                        <div class="card-body">
+
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+
+                                <div class="card-icon-wrapper bg-success bg-opacity-10 text-success">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </div>
+
+                                <span class="badge bg-success text-white">
+                                    Compras
+                                </span>
+
+                            </div>
+
+                            <h5 class="fw-bold text-dark">
+                                Mis compras
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Consulta el historial de tus compras,
+                                órdenes y tickets generados.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <a href="@Url.Action("MisResenas", "Resenas")"
+                   class="text-decoration-none text-dark">
+
+                    <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-primary">
+
+                        <div class="card-body">
+
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+
+                                <div class="card-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+
+                                <span class="badge bg-primary text-white">
+                                    Reseñas
+                                </span>
+
+                            </div>
+
+                            <h5 class="fw-bold text-dark">
+                                Mis reseñas
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Consulta tus reseñas y revisa si están
+                                pendientes, aprobadas o rechazadas.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+        }
 
         <div class="col-12 col-md-6 col-lg-4">
+
             <a href="@Url.Action("Perfil", "Account")"
                class="text-decoration-none text-dark">
 
                 <div class="card dashboard-card h-100 p-3 shadow-sm border-start border-4 border-warning">
+
                     <div class="card-body">
 
                         <div class="d-flex align-items-center justify-content-between mb-3">
+
                             <div class="card-icon-wrapper bg-warning bg-opacity-10 text-warning">
                                 <i class="fa-solid fa-user-shield"></i>
                             </div>
@@ -250,6 +421,7 @@
                             <span class="badge bg-warning text-dark">
                                 Seguridad
                             </span>
+
                         </div>
 
                         <h5 class="fw-bold text-dark">
@@ -257,13 +429,17 @@
                         </h5>
 
                         <p class="text-muted small mb-0">
-                            Consulta tus datos personales y de asociado.
+                            Consulta tus datos personales y de usuario.
                         </p>
 
                     </div>
+
                 </div>
 
             </a>
+
         </div>
+
     </div>
+
 </main>

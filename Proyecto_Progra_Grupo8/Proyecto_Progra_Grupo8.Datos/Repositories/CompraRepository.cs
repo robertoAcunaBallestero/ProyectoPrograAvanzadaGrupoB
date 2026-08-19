@@ -159,9 +159,43 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
                     o.UsuarioId == usuarioId);
         }
 
+        public int ContarOrdenes()
+        {
+            return _context.Ordenes.Count();
+        }
+
+        public int ContarEntradasVendidas()
+        {
+            return _context.DetallesOrden
+                .Sum(d => (int?)d.Cantidad) ?? 0;
+        }
+
+        public decimal ObtenerIngresosTotales()
+        {
+            return _context.Ordenes
+                .Sum(o => (decimal?)o.Total) ?? 0m;
+        }
+
+        public IDictionary<string, decimal>
+            ObtenerIngresosPorEvento()
+        {
+            return _context.DetallesOrden
+                .GroupBy(d => d.Evento.Nombre)
+                .Select(g => new
+                {
+                    Evento = g.Key,
+                    Total = g.Sum(d =>
+                        d.PrecioUnitario * d.Cantidad)
+                })
+                .ToList()
+                .ToDictionary(
+                    x => x.Evento,
+                    x => x.Total);
+        }
+
         public void Dispose()
         {
-            
+
         }
     }
 }

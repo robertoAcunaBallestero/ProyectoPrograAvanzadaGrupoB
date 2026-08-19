@@ -1,7 +1,13 @@
 ﻿@model Proyecto_Progra_Grupo8.Entidades.Models.Evento
 
+@using System.Linq
+@using Proyecto_Progra_Grupo8.Entidades.Models
+
 @{
     ViewBag.Title = "Detalle del evento";
+
+    var resenas =
+        ViewBag.Resenas as IEnumerable<Resena>;
 }
 
 <div class="container mt-4">
@@ -54,32 +60,28 @@
                         @Model.EntradasDisponibles
                     </div>
 
-                    @*<div class="d-flex gap-2">
-
-            @Html.ActionLink(
-                "Volver a la cartelera",
-                "Index",
-                "Cartelera",
-                null,
-                new { @class = "btn btn-secondary" }
-            )
-
-        </div>*@
-
                     <div class="mt-4">
 
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Asociado"))
+                        @if (User.Identity.IsAuthenticated &&
+                             User.IsInRole("Asociado"))
                         {
                             if (Model.EntradasDisponibles > 0)
                             {
-                                using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
+                                using (Html.BeginForm(
+                                    "Agregar",
+                                    "Carrito",
+                                    FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
 
-                                    @Html.Hidden("EventoId", Model.EventoId)
+                                    @Html.Hidden(
+                                        "EventoId",
+                                        Model.EventoId)
 
                                     <div class="mb-3">
-                                        <label for="Cantidad" class="form-label">
+
+                                        <label for="Cantidad"
+                                               class="form-label">
                                             Cantidad de entradas
                                         </label>
 
@@ -91,9 +93,11 @@
                                                max="@Model.EntradasDisponibles"
                                                value="1"
                                                required />
+
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit"
+                                            class="btn btn-primary">
                                         Agregar al carrito
                                     </button>
                                 }
@@ -123,10 +127,86 @@
                             "Index",
                             "Cartelera",
                             null,
-                            new { @class = "btn btn-secondary mt-2" }
-                        )
+                            new
+                            {
+                                @class = "btn btn-secondary mt-2"
+                            })
 
                     </div>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm mt-4">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h3 class="mb-0">
+                            Reseñas
+                        </h3>
+
+                        @if (User.Identity.IsAuthenticated &&
+                             User.IsInRole("Asociado"))
+                        {
+                            @Html.ActionLink(
+                                "Escribir reseña",
+                                "Crear",
+                                "Resenas",
+                                new
+                                {
+                                    eventoId = Model.EventoId
+                                },
+                                new
+                                {
+                                    @class = "btn btn-outline-primary"
+                                })
+                        }
+
+                    </div>
+
+                    <hr />
+
+                    @if (resenas == null || !resenas.Any())
+                    {
+                        <div class="alert alert-light border">
+                            Este evento todavía no tiene reseñas publicadas.
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var resena in resenas)
+                        {
+                            <div class="border rounded p-3 mb-3">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <strong>
+                                        @if (resena.Usuario != null)
+                                        {
+                                            @resena.Usuario.NombreCompleto
+                                        }
+                                        else
+                                        {
+                                            @:Asociado
+                                        }
+                                    </strong>
+
+                                    <small class="text-muted">
+                                        @resena.FechaResena.ToString("dd/MM/yyyy")
+                                    </small>
+
+                                </div>
+
+                                <p class="mt-2 mb-0">
+                                    @resena.Comentario
+                                </p>
+
+                            </div>
+                        }
+                    }
 
                 </div>
 
@@ -137,105 +217,3 @@
     </div>
 
 </div>
-
-
-
-
-@*@model Proyecto_Progra_Grupo8.Entidades.Models.Evento
-
-    @{
-        ViewBag.Title = "Detalle";
-    }
-
-    <h2>Detalle</h2>
-
-    <div>
-        <h4>Evento</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.CodigoEvento)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.CodigoEvento)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Nombre)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.CategoriaEventoId)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.CategoriaEventoId)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaHora)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FechaHora)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Lugar)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Lugar)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.PrecioEntrada)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.PrecioEntrada)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.AforoTotal)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.AforoTotal)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.EntradasDisponibles)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.EntradasDisponibles)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Activo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Activo)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.EventoId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>*@

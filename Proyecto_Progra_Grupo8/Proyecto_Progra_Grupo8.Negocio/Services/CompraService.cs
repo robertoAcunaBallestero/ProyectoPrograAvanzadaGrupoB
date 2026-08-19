@@ -83,6 +83,27 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
                 usuarioId);
         }
 
+        public int ContarOrdenes()
+        {
+            return _repository.ContarOrdenes();
+        }
+
+        public int ContarEntradasVendidas()
+        {
+            return _repository.ContarEntradasVendidas();
+        }
+
+        public decimal ObtenerIngresosTotales()
+        {
+            return _repository.ObtenerIngresosTotales();
+        }
+
+        public IDictionary<string, decimal>
+            ObtenerIngresosPorEvento()
+        {
+            return _repository.ObtenerIngresosPorEvento();
+        }
+
         public void Dispose()
         {
             _repository.Dispose();
