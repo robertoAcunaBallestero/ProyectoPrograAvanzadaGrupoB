@@ -67,16 +67,8 @@
                         {
                             if (Model.EntradasDisponibles > 0)
                             {
-                                using (Html.BeginForm(
-                                    "Agregar",
-                                    "Carrito",
-                                    FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-
-                                    @Html.Hidden(
-                                        "EventoId",
-                                        Model.EventoId)
+                                <form id="formAgregarCarrito"
+                                      data-evento-id="@Model.EventoId">
 
                                     <div class="mb-3">
 
@@ -97,10 +89,13 @@
                                     </div>
 
                                     <button type="submit"
-                                            class="btn btn-primary">
+                                            class="btn btn-primary"
+                                            id="btnAgregarCarrito">
+                                        <span class="spinner-border spinner-border-sm d-none"
+                                              role="status"></span>
                                         Agregar al carrito
                                     </button>
-                                }
+                                </form>
                             }
                             else
                             {
@@ -123,14 +118,14 @@
                         }
 
                         @Html.ActionLink(
-                            "Volver a la cartelera",
-                            "Index",
-                            "Cartelera",
-                            null,
-                            new
-                            {
-                                @class = "btn btn-secondary mt-2"
-                            })
+                                 "Volver a la cartelera",
+                                 "Index",
+                                 "Cartelera",
+                                 null,
+                                 new
+                                 {
+                                     @class = "btn btn-secondary mt-2"
+                                 })
 
                     </div>
 
@@ -152,17 +147,17 @@
                              User.IsInRole("Asociado"))
                         {
                             @Html.ActionLink(
-                                "Escribir reseña",
-                                "Crear",
-                                "Resenas",
-                                new
-                                {
-                                    eventoId = Model.EventoId
-                                },
-                                new
-                                {
-                                    @class = "btn btn-outline-primary"
-                                })
+                                     "Escribir reseña",
+                                     "Crear",
+                                     "Resenas",
+                                     new
+                                     {
+                                         eventoId = Model.EventoId
+                                     },
+                                     new
+                                     {
+                                         @class = "btn btn-outline-primary"
+                                     })
                         }
 
                     </div>
@@ -217,3 +212,7 @@
     </div>
 
 </div>
+
+@section scripts {
+    <script src="~/Scripts/app/carrito.js"></script>
+}

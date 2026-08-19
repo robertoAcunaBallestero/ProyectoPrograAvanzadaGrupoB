@@ -123,6 +123,8 @@ namespace Proyecto_Progra_Grupo8.Controllers
                 "MisResenas");
         }
 
+        // Aprobar/Rechazar se hacen ahora vía AJAX contra
+        // PUT api/resenas/{id} (ResenasApiController), sin recargar la página.
         [Authorize(Roles = "Administrador")]
         public ActionResult Moderar()
         {
@@ -130,52 +132,6 @@ namespace Proyecto_Progra_Grupo8.Controllers
                 _resenaService.ObtenerPendientes();
 
             return View(resenas);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Aprobar(int id)
-        {
-            ResultadoOperacion resultado =
-                _resenaService.Aprobar(id);
-
-            if (resultado.Exito)
-            {
-                TempData["MensajeExito"] =
-                    resultado.Mensaje;
-            }
-            else
-            {
-                TempData["MensajeError"] =
-                    resultado.Mensaje;
-            }
-
-            return RedirectToAction(
-                "Moderar");
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Rechazar(int id)
-        {
-            ResultadoOperacion resultado =
-                _resenaService.Rechazar(id);
-
-            if (resultado.Exito)
-            {
-                TempData["MensajeExito"] =
-                    resultado.Mensaje;
-            }
-            else
-            {
-                TempData["MensajeError"] =
-                    resultado.Mensaje;
-            }
-
-            return RedirectToAction(
-                "Moderar");
         }
 
         protected override void Dispose(

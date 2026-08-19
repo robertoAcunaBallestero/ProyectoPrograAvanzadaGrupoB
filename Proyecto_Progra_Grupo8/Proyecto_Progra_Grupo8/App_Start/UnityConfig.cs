@@ -1,8 +1,10 @@
-using Proyecto_Progra_Grupo8.Datos;
+ï»¿using Proyecto_Progra_Grupo8.Datos;
 using Proyecto_Progra_Grupo8.Datos.Repositories;
+using Proyecto_Progra_Grupo8.Infraestructura;
 using Proyecto_Progra_Grupo8.Negocio.Services;
 using Proyecto_Progra_Grupo8.Controllers;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -16,11 +18,13 @@ namespace Proyecto_Progra_Grupo8
 {
     public static class UnityConfig
     {
+        public static IUnityContainer Container { get; private set; }
+
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
 
-            // Configuración DbContext y repositorios
+            // ConfiguraciÃ³n DbContext y repositorios
             container.RegisterType<ProyectoDbContext>(
                 new HierarchicalLifetimeManager());
 
@@ -65,7 +69,7 @@ namespace Proyecto_Progra_Grupo8
                 <IResenaService, ResenaService>(
                     new HierarchicalLifetimeManager());
 
-            // Registro explícito para AccountController usando OWIN / Identity
+            // Registro explÃ­cito para AccountController usando OWIN / Identity
             container.RegisterType<AccountController>(
                 new InjectionConstructor());
 
@@ -77,6 +81,11 @@ namespace Proyecto_Progra_Grupo8
 
             DependencyResolver.SetResolver(
                 new UnityDependencyResolver(container));
+
+            Container = container;
+
+            GlobalConfiguration.Configuration.DependencyResolver =
+                new UnityWebApiDependencyResolver(container);
         }
     }
 }

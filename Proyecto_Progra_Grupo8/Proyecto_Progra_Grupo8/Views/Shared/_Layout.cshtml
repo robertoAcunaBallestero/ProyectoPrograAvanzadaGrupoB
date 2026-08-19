@@ -44,8 +44,14 @@
         </footer>
     </div>
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"
+         id="toastContainer"
+         style="z-index: 1080;">
+    </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/app/toasts.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -211,19 +211,7 @@ namespace Proyecto_Progra_Grupo8.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public JsonResult CodigoDisponible(
-            string codigoEvento,
-            int eventoId = 0)
-        {
-            bool disponible =
-                _eventoService.CodigoDisponible(
-                    codigoEvento,
-                    eventoId);
-
-            return Json(
-                disponible,
-                JsonRequestBehavior.AllowGet);
-        }
+        // La verificación de código disponible se hace ahora vía AJAX
+        // contra GET api/eventos/codigo-disponible (EventosApiController).
     }
 }
