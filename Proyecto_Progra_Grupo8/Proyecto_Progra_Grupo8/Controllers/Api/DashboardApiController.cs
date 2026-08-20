@@ -41,6 +41,10 @@ namespace Proyecto_Progra_Grupo8.Controllers.Api
             {
                 TotalUsuarios = usuarios.Count,
 
+                UsuariosActivos = usuarios.Count(u => u.Activo),
+
+                UsuariosInactivos = usuarios.Count(u => !u.Activo),
+
                 TotalEventosActivos =
                     eventos.Count(e => e.Activo),
 

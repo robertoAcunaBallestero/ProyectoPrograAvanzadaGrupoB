@@ -58,7 +58,7 @@ namespace Proyecto_Progra_Grupo8.Controllers
         public ActionResult Imagen(int id)
         {
             var imagen =
-                _service.ObtenerImagenPrincipal(id);
+                _service.ObtenerImagen(id);
 
             if (imagen == null ||
                 imagen.Archivo == null)
@@ -76,7 +76,27 @@ namespace Proyecto_Progra_Grupo8.Controllers
                 imagen.Archivo,
                 tipoContenido);
         }
+        //public ActionResult Imagen(int id)
+        //{
+        //    var imagen =
+        //        _service.ObtenerImagenPrincipal(id);
 
+        //    if (imagen == null ||
+        //        imagen.Archivo == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    string tipoContenido =
+        //        string.IsNullOrWhiteSpace(
+        //            imagen.TipoContenido)
+        //            ? "image/jpeg"
+        //            : imagen.TipoContenido;
+
+        //    return File(
+        //        imagen.Archivo,
+        //        tipoContenido);
+        //} 
         protected override void Dispose(
             bool disposing)
         {

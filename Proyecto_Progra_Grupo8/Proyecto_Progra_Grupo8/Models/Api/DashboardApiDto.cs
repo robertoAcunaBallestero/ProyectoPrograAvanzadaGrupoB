@@ -6,6 +6,10 @@ namespace Proyecto_Progra_Grupo8.Models.Api
     {
         public int TotalUsuarios { get; set; }
 
+        public int UsuariosActivos { get; set; }
+
+        public int UsuariosInactivos { get; set; }
+
         public int TotalEventosActivos { get; set; }
 
         public int TotalEventosProximos { get; set; }

@@ -27,7 +27,9 @@
 });
 
 function renderizarDashboard(datos) {
-    $("#totalUsuarios").text(datos.totalUsuarios);
+    $("#totalUsuarios").text(datos.totalUsuarios); 
+    $("#usuariosActivos").text(datos.usuariosActivos);
+    $("#usuariosInactivos").text(datos.usuariosInactivos);
     $("#totalEventosActivos").text(datos.totalEventosActivos);
     $("#totalEventosProximos").text(datos.totalEventosProximos);
     $("#totalOrdenes").text(datos.totalOrdenes);

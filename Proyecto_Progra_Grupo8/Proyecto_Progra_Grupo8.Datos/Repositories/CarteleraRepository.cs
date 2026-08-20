@@ -53,6 +53,13 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
                 .FirstOrDefault();
         }
 
+        public ImagenEvento ObtenerImagen(int imagenId)
+        {
+            return _context.ImagenesEventos
+                .AsNoTracking()
+                .FirstOrDefault(i => i.ImagenId == imagenId);
+        }
+
         public void Dispose()
         {
 

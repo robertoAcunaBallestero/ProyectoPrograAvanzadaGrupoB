@@ -20,6 +20,35 @@
 
                 <div class="card-body">
 
+                    @*@if (Model.Imagenes != null && Model.Imagenes.Any())
+                      {
+                          <div class="evento-galeria mb-4">
+
+                              @foreach (var imagen in Model.Imagenes)
+                              {
+                                  <div class="evento-imagen">
+                                      <img src="@Url.Action("Imagen", "Cartelera", new { id = imagen.ImagenId })"
+                                           alt="@Model.Nombre"
+                                           class="img-fluid" />
+                                  </div>
+                              }
+
+                         </div>
+                     }*@
+
+                    @if (Model.Imagenes != null && Model.Imagenes.Any())
+                    {
+                        <div class="evento-galeria mb-4">
+                            @foreach (var imagen in Model.Imagenes.OrderBy(i => i.ImagenId))
+                            {
+                                <div class="evento-imagen">
+                                    <img src="@Url.Action("Imagen", "Cartelera", new { id = imagen.ImagenId })"
+                                         alt="@Model.Nombre" />
+                                </div>
+                            }
+                        </div>
+                    }
+
                     <h1 class="card-title mb-4">
                         @Model.Nombre
                     </h1>
@@ -212,6 +241,73 @@
     </div>
 
 </div>
+
+@*<style>
+    .evento-galeria {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .evento-imagen {
+        height: 220px;
+        overflow: hidden;
+        border-radius: 12px;
+        background-color: #f1f1f1;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+        .evento-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    @@media (max-width: 768px) {
+        .evento-galeria {
+            grid-template-columns: 1fr;
+        }
+
+        .evento-imagen {
+            height: 250px;
+        }
+    }
+</style>*@ 
+
+<style>
+    .evento-galeria {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .evento-imagen {
+        height: 220px;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #f1f1f1;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+    }
+
+        .evento-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    @@media (max-width: 768px) {
+        .evento-galeria {
+            grid-template-columns: 1fr;
+        }
+
+        .evento-imagen {
+            height: 250px;
+        }
+    }
+</style>
 
 @section scripts {
     <script src="~/Scripts/app/carrito.js"></script>

@@ -12,5 +12,7 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
         IEnumerable<Evento> ObtenerCartelera();
         Evento ObtenerDetalle(int eventoId);
         ImagenEvento ObtenerImagenPrincipal(int eventoId);
+
+        ImagenEvento ObtenerImagen(int imagenId);
     }
 }

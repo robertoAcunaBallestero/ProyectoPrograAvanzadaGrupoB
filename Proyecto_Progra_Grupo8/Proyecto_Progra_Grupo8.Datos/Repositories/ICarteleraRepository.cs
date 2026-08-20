@@ -11,5 +11,7 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
         Evento ObtenerEventoActivo(int eventoId);
 
         ImagenEvento ObtenerPrimeraImagen(int eventoId);
+
+        ImagenEvento ObtenerImagen(int imagenId);
     }
 }

@@ -23,6 +23,9 @@ namespace Proyecto_Progra_Grupo8.Negocio.Services
         public ImagenEvento ObtenerImagenPrincipal(int eventoId)
             => _repository.ObtenerPrimeraImagen(eventoId);
 
+        public ImagenEvento ObtenerImagen(int imagenId)
+    => _repository.ObtenerImagen(imagenId);
+
         public void Dispose()
             => _repository.Dispose();
     }
