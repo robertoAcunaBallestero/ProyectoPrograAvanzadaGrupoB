@@ -46,6 +46,12 @@ namespace Proyecto_Progra_Grupo8.ViewModels
         [Display(Name = "Rol")]
         public string Rol { get; set; }
 
+        [Display(Name = "Estado")]
+        public bool Activo { get; set; }
+
+        [Display(Name = "Última conexión")]
+        public DateTime? UltimaConexion { get; set; }
+
         [StringLength(
             100,
             MinimumLength = 6,
@@ -71,7 +77,8 @@ namespace Proyecto_Progra_Grupo8.ViewModels
                 Email = Email,
                 UserName = Email,
                 NumeroAsociado = NumeroAsociado,
-                FechaNacimiento = FechaNacimiento
+                FechaNacimiento = FechaNacimiento,
+                Activo = Activo
             };
         }
 
@@ -92,7 +99,9 @@ namespace Proyecto_Progra_Grupo8.ViewModels
                 Email = usuario.Email,
                 NumeroAsociado = usuario.NumeroAsociado,
                 FechaNacimiento = usuario.FechaNacimiento,
-                Rol = rol
+                Rol = rol,
+                Activo = usuario.Activo,
+                UltimaConexion = usuario.UltimaConexion
             };
         }
 

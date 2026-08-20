@@ -74,7 +74,11 @@ namespace Proyecto_Progra_Grupo8.Controllers
             {
                 Rol = "Asociado",
                 FechaNacimiento =
-                    DateTime.Today.AddYears(-18)
+                    DateTime.Today.AddYears(-18),
+
+                // Todo usuario nuevo queda activo
+                // desde el momento de su creación.
+                Activo = true
             };
 
             return View(model);
@@ -99,6 +103,10 @@ namespace Proyecto_Progra_Grupo8.Controllers
                 PrepararRoles(model.Rol);
                 return View(model);
             }
+
+            // Los usuarios creados por el administrador
+            // quedan activos inicialmente.
+            model.Activo = true;
 
             ResultadoOperacion resultado =
                 _usuarioService.Crear(

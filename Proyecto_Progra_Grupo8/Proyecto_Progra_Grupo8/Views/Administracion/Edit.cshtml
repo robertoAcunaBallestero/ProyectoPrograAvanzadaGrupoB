@@ -4,102 +4,62 @@
     ViewBag.Title = "Editar usuario";
 }
 
-<div class="container mt-4">
+<div class="container py-4">
 
     <div class="row justify-content-center">
-
-        <div class="col-md-8">
+        <div class="col-lg-8">
 
             <div class="card shadow-sm">
-
-                <div class="card-header bg-primary text-white">
-
-                    <h4 class="mb-0">
-                        Editar usuario
-                    </h4>
-
+                <div class="card-header">
+                    <h3 class="mb-0">Editar usuario</h3>
                 </div>
 
                 <div class="card-body">
 
-                    @using (Html.BeginForm(
-                        "Edit",
-                        "Administracion",
-                        FormMethod.Post))
+                    @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-
-                        @Html.HiddenFor(
-                            model => model.Id)
+                        @Html.HiddenFor(model => model.Id)
 
                         @Html.ValidationSummary(
                             true,
                             "",
-                            new
-                            {
-                                @class = "alert alert-danger"
-                            })
+                            new { @class = "text-danger mb-3" })
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.NombreCompleto,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.TextBoxFor(
                                 model => model.NombreCompleto,
-                                new
-                                {
-                                    @class = "form-control"
-                                })
+                                new { @class = "form-control" })
 
                             @Html.ValidationMessageFor(
                                 model => model.NombreCompleto,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.Cedula,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.TextBoxFor(
                                 model => model.Cedula,
-                                new
-                                {
-                                    @class = "form-control"
-                                })
+                                new { @class = "form-control" })
 
                             @Html.ValidationMessageFor(
                                 model => model.Cedula,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.Email,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.TextBoxFor(
                                 model => model.Email,
@@ -112,48 +72,28 @@
                             @Html.ValidationMessageFor(
                                 model => model.Email,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.NumeroAsociado,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.TextBoxFor(
                                 model => model.NumeroAsociado,
-                                new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "AS-0000"
-                                })
+                                new { @class = "form-control" })
 
                             @Html.ValidationMessageFor(
                                 model => model.NumeroAsociado,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.FechaNacimiento,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.TextBoxFor(
                                 model => model.FechaNacimiento,
@@ -167,71 +107,95 @@
                             @Html.ValidationMessageFor(
                                 model => model.FechaNacimiento,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
                         <div class="mb-3">
-
                             @Html.LabelFor(
                                 model => model.Rol,
-                                new
-                                {
-                                    @class = "form-label fw-bold"
-                                })
+                                new { @class = "form-label" })
 
                             @Html.DropDownListFor(
                                 model => model.Rol,
                                 (SelectList)ViewBag.Roles,
-                                new
-                                {
-                                    @class = "form-select"
-                                })
+                                "Seleccione un rol",
+                                new { @class = "form-select" })
 
                             @Html.ValidationMessageFor(
                                 model => model.Rol,
                                 "",
-                                new
-                                {
-                                    @class = "text-danger"
-                                })
-
+                                new { @class = "text-danger" })
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Estado del usuario
+                            </label>
 
-                            @Html.ActionLink(
-                                "Cancelar",
-                                "Index",
-                                "Administracion",
-                                null,
-                                new
-                                {
-                                    @class = "btn btn-secondary"
-                                })
+                            <div class="form-check form-switch">
+                                @Html.CheckBoxFor(
+                                    model => model.Activo,
+                                    new
+                                    {
+                                        @class = "form-check-input",
+                                        role = "switch"
+                                    })
+
+                                @Html.LabelFor(
+                                    model => model.Activo,
+                                    "Usuario activo",
+                                    new
+                                    {
+                                        @class = "form-check-label"
+                                    })
+                            </div>
+
+                            <div class="form-text">
+                                Desmarque esta opción para
+                                desactivar al usuario.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">
+                                Última fecha y hora de conexión
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="@(Model.UltimaConexion.HasValue
+                                       ? Model.UltimaConexion.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                       : "Nunca ha iniciado sesión")"
+                                   readonly />
+                        </div>
+
+                        <div class="d-flex gap-2">
 
                             <button type="submit"
                                     class="btn btn-primary">
                                 Guardar cambios
                             </button>
 
+                            @Html.ActionLink(
+                                "Cancelar",
+                                "Index",
+                                null,
+                                new
+                                {
+                                    @class = "btn btn-secondary"
+                                })
+
                         </div>
                     }
 
                 </div>
-
             </div>
 
         </div>
-
     </div>
 
 </div>
 
-@section Scripts
-{
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Proyecto_Progra_Grupo8.Entidades.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "Asociados";
+    ViewBag.Title = "Gestión de Usuarios";
 }
 
-<div class="container mt-4">
+<div class="container py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2>Usuarios registrados</h2>
+            <h2 class="mb-1">Gestión de Usuarios</h2>
             <p class="text-muted mb-0">
-                Administración de usuarios del sistema.
+                Administración de usuarios registrados en el sistema.
             </p>
         </div>
 
@@ -19,118 +19,140 @@
             "Create",
             "Administracion",
             null,
-            new
-            {
-                @class = "btn btn-primary"
-            })
+            new { @class = "btn btn-primary" })
     </div>
-
-    <hr />
 
     @Html.Partial("_Mensajes")
 
-    @if (Model == null || !Model.Any())
-    {
-        <div class="alert alert-info">
-            No hay usuarios registrados.
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cédula</th>
+                                <th>Correo</th>
+                                <th>N.º Asociado</th>
+                                <th>Estado</th>
+                                <th>Última conexión</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var usuario in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @usuario.NombreCompleto
+                                    </td>
+
+                                    <td>
+                                        @usuario.Cedula
+                                    </td>
+
+                                    <td>
+                                        @usuario.Email
+                                    </td>
+
+                                    <td>
+                                        @usuario.NumeroAsociado
+                                    </td>
+
+                                    <td>
+                                        @if (usuario.Activo)
+                                        {
+                                            <span class="badge bg-success">
+                                                Activo
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                Inactivo
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (usuario.UltimaConexion.HasValue)
+                                        {
+                                            @(usuario.UltimaConexion.Value.ToString("dd/MM/yyyy HH:mm:ss"))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                Nunca
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        @Html.ActionLink(
+                                            "Detalles",
+                                            "Details",
+                                            new
+                                            {
+                                                id = usuario.Id
+                                            },
+                                            new
+                                            {
+                                                @class = "btn btn-sm btn-outline-info me-1"
+                                            })
+
+                                        @Html.ActionLink(
+                                            "Editar",
+                                            "Edit",
+                                            new
+                                            {
+                                                id = usuario.Id
+                                            },
+                                            new
+                                            {
+                                                @class = "btn btn-sm btn-outline-primary me-1"
+                                            })
+
+                                        @Html.ActionLink(
+                                            "Eliminar",
+                                            "Delete",
+                                            new
+                                            {
+                                                id = usuario.Id
+                                            },
+                                            new
+                                            {
+                                                @class = "btn btn-sm btn-outline-danger"
+                                            })
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info mb-0">
+                    No hay usuarios registrados.
+                </div>
+            }
+
         </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-
-            <table class="table table-striped table-bordered align-middle">
-
-                <thead class="table-dark">
-                    <tr>
-                        <th>Número de asociado</th>
-                        <th>Nombre completo</th>
-                        <th>Cédula</th>
-                        <th>Correo</th>
-                        <th>Fecha de ingreso</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @foreach (var asociado in Model)
-                    {
-                        <tr>
-
-                            <td>
-                                @asociado.NumeroAsociado
-                            </td>
-
-                            <td>
-                                @asociado.NombreCompleto
-                            </td>
-
-                            <td>
-                                @asociado.Cedula
-                            </td>
-
-                            <td>
-                                @asociado.Email
-                            </td>
-
-                            <td>
-                                @asociado.FechaIngreso.ToShortDateString()
-                            </td>
-
-                            <td class="text-center">
-
-                                <div class="d-flex justify-content-center gap-1">
-
-                                    @Html.ActionLink(
-                                        "Detalle",
-                                        "Details",
-                                        new
-                                        {
-                                            id = asociado.Id
-                                        },
-                                        new
-                                        {
-                                            @class = "btn btn-info btn-sm text-white"
-                                        })
-
-                                    @Html.ActionLink(
-                                        "Editar",
-                                        "Edit",
-                                        new
-                                        {
-                                            id = asociado.Id
-                                        },
-                                        new
-                                        {
-                                            @class = "btn btn-warning btn-sm"
-                                        })
-
-                                    @Html.ActionLink(
-                                        "Eliminar",
-                                        "Delete",
-                                        new
-                                        {
-                                            id = asociado.Id
-                                        },
-                                        new
-                                        {
-                                            @class = "btn btn-danger btn-sm"
-                                        })
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-                    }
-
-                </tbody>
-
-            </table>
-
-        </div>
-    }
+    </div>
 
     <div class="mt-3">
 

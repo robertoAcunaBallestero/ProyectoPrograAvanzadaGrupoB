@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Proyecto_Progra_Grupo8.Entidades.Models
 {
-
     public class ApplicationUser : IdentityUser
     {
         [Required(ErrorMessage = "El nombre completo es obligatorio.")]
@@ -44,6 +43,12 @@ namespace Proyecto_Progra_Grupo8.Entidades.Models
 
         [Display(Name = "Fecha de ingreso")]
         public DateTime FechaIngreso { get; set; }
+
+        [Display(Name = "Estado")]
+        public bool Activo { get; set; }
+
+        [Display(Name = "Última conexión")]
+        public DateTime? UltimaConexion { get; set; }
 
         // Genera la identidad utilizada por la cookie de autenticación.
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(

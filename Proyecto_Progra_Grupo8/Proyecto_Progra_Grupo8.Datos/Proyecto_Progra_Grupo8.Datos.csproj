@@ -69,6 +69,10 @@
     <Compile Include="Migrations\202608190100489_AgregarResenas.Designer.cs">
       <DependentUpon>202608190100489_AgregarResenas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202608200407493_AgregarEstadoUltimaConexionUsuario.cs" />
+    <Compile Include="Migrations\202608200407493_AgregarEstadoUltimaConexionUsuario.Designer.cs">
+      <DependentUpon>202608200407493_AgregarEstadoUltimaConexionUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProyectoDbContext.cs" />
@@ -102,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202608190100489_AgregarResenas.resx">
       <DependentUpon>202608190100489_AgregarResenas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608200407493_AgregarEstadoUltimaConexionUsuario.resx">
+      <DependentUpon>202608200407493_AgregarEstadoUltimaConexionUsuario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

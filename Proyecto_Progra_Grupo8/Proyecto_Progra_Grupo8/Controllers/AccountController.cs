@@ -22,7 +22,9 @@ namespace Proyecto_Progra_Grupo8.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(
+            ApplicationUserManager userManager,
+            ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -30,14 +32,34 @@ namespace Proyecto_Progra_Grupo8.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-            private set { _signInManager = value; }
+            get
+            {
+                return _signInManager ??
+                    HttpContext
+                        .GetOwinContext()
+                        .Get<ApplicationSignInManager>();
+            }
+
+            private set
+            {
+                _signInManager = value;
+            }
         }
 
         public ApplicationUserManager UserManager
         {
-            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-            private set { _userManager = value; }
+            get
+            {
+                return _userManager ??
+                    HttpContext
+                        .GetOwinContext()
+                        .GetUserManager<ApplicationUserManager>();
+            }
+
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // GET: /Account/Login
@@ -52,23 +74,64 @@ namespace Proyecto_Progra_Grupo8.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(
+            LoginViewModel model,
+            string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            // Primero buscamos al usuario para comprobar
+            // si su cuenta se encuentra activa.
+            ApplicationUser usuario =
+                await UserManager.FindByEmailAsync(model.Email);
+
+            if (usuario != null && !usuario.Activo)
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Su cuenta se encuentra inactiva. " +
+                    "Debe comunicarse con un administrador.");
+
+                return View(model);
+            }
+
+            var result =
+                await SignInManager.PasswordSignInAsync(
+                    model.Email,
+                    model.Password,
+                    model.RememberMe,
+                    shouldLockout: true);
+
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    // Registra automáticamente la fecha y hora
+                    // del último inicio de sesión exitoso.
+                    if (usuario != null)
+                    {
+                        usuario.UltimaConexion = DateTime.Now;
+
+                        await UserManager.UpdateAsync(usuario);
+                    }
+
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
+
                     return View("Lockout");
+
                 case SignInStatus.Failure:
+
                 default:
-                    ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
+
+                    ModelState.AddModelError(
+                        "",
+                        "Intento de inicio de sesión no válido.");
+
                     return View(model);
             }
         }
@@ -84,10 +147,13 @@ namespace Proyecto_Progra_Grupo8.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(
+            RegisterViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var user = new ApplicationUser
             {
@@ -97,21 +163,47 @@ namespace Proyecto_Progra_Grupo8.Controllers
                 Cedula = model.Cedula,
                 NumeroAsociado = model.NumeroAsociado,
                 FechaNacimiento = model.FechaNacimiento,
-                FechaIngreso = DateTime.Now
+                FechaIngreso = DateTime.Now,
+
+                // Todo usuario nuevo queda activo.
+                Activo = true
             };
 
-            var result = await UserManager.CreateAsync(user, model.Password);
+            var result =
+                await UserManager.CreateAsync(
+                    user,
+                    model.Password);
+
             if (result.Succeeded)
             {
-                // Todo usuario que se autorregistra entra con el rol "Asociado".
-                // El rol "Administrador" solo se asigna desde el seed o por un Administrador existente.
-                await UserManager.AddToRoleAsync(user.Id, "Asociado");
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                return RedirectToAction("Index", "Home");
+                // Todo usuario que se autorregistra entra
+                // con el rol Asociado.
+                await UserManager.AddToRoleAsync(
+                    user.Id,
+                    "Asociado");
+
+                // Como el registro inicia sesión automáticamente,
+                // también registramos la primera conexión.
+                user.UltimaConexion = DateTime.Now;
+
+                await UserManager.UpdateAsync(user);
+
+                await SignInManager.SignInAsync(
+                    user,
+                    isPersistent: false,
+                    rememberBrowser: false);
+
+                return RedirectToAction(
+                    "Index",
+                    "Home");
             }
 
             foreach (var error in result.Errors)
-                ModelState.AddModelError("", error);
+            {
+                ModelState.AddModelError(
+                    "",
+                    error);
+            }
 
             return View(model);
         }
@@ -121,8 +213,13 @@ namespace Proyecto_Progra_Grupo8.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            AuthenticationManager.SignOut(
+                DefaultAuthenticationTypes
+                    .ApplicationCookie);
+
+            return RedirectToAction(
+                "Index",
+                "Home");
         }
 
         // GET: /Account/Lockout
@@ -135,9 +232,11 @@ namespace Proyecto_Progra_Grupo8.Controllers
         // GET: /Account/Perfil
         public ActionResult Perfil()
         {
-            string usuarioId = User.Identity.GetUserId();
+            string usuarioId =
+                User.Identity.GetUserId();
 
-            ApplicationUser usuario = UserManager.FindById(usuarioId);
+            ApplicationUser usuario =
+                UserManager.FindById(usuarioId);
 
             if (usuario == null)
             {
@@ -169,16 +268,25 @@ namespace Proyecto_Progra_Grupo8.Controllers
 
         private IAuthenticationManager AuthenticationManager
         {
-            get { return HttpContext.GetOwinContext().Authentication; }
+            get
+            {
+                return HttpContext
+                    .GetOwinContext()
+                    .Authentication;
+            }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        private ActionResult RedirectToLocal(
+            string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(
+                "Index",
+                "Home");
         }
     }
 }

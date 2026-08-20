@@ -208,6 +208,11 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
             existente.UserName =
                 usuario.Email;
 
+            // Guarda el estado activo/inactivo
+            // seleccionado por el administrador.
+            existente.Activo =
+                usuario.Activo;
+
             IdentityResult resultado =
                 _userManager.Update(existente);
 

@@ -71,7 +71,10 @@
                             new DateTime(1990, 1, 1),
                         NumeroAsociado = "AS-0001",
                         FechaIngreso = DateTime.Now,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+
+                        // El administrador se crea activo.
+                        Activo = true
                     };
 
                 IdentityResult resultado =
@@ -107,7 +110,10 @@
                             new DateTime(1995, 5, 15),
                         NumeroAsociado = "AS-0002",
                         FechaIngreso = DateTime.Now,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+
+                        // El asociado se crea activo.
+                        Activo = true
                     };
 
                 IdentityResult resultado =
