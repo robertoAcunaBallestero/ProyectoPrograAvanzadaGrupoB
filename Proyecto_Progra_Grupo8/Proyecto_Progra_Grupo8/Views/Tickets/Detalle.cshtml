@@ -1,0 +1,142 @@
+﻿@using Proyecto_Progra_Grupo8.Entidades.Models
+
+@model Ticket
+
+@{
+    ViewBag.Title = "Detalle del ticket";
+} 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="container my-4">
+
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Mi Ticket</h2>
+        <p class="text-muted">
+            Información de tu entrada.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0 ticket-detail-card">
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+                        <div class="ticket-icon mx-auto mb-3">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                        <span class="badge bg-primary">
+                            Ticket
+                        </span>
+                    </div>
+
+                    <h3 class="text-center fw-bold mb-4">
+                        @Model.DetalleOrden.Evento.Nombre
+                    </h3>
+
+                    <hr />
+
+                    <div class="mb-3">
+                        <strong>Fecha del evento:</strong>
+                        <span>
+                            @Model.DetalleOrden.Evento.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Lugar:</strong>
+                        <span>
+                            @Model.DetalleOrden.Evento.Lugar
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Orden:</strong>
+                        <span>
+                            #@Model.DetalleOrden.OrdenId
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Fecha de generación:</strong>
+                        <span>
+                            @Model.FechaGeneracion.ToString("dd/MM/yyyy HH:mm")
+                        </span>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="fw-bold">
+                            Código único del ticket
+                        </label>
+
+                        <div class="codigo-ticket">
+                            @Model.CodigoUnico
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        @*<a href="@Url.Action("Index", "Tickets")"
+                             class="btn btn-secondary w-100">
+                              <i class="fa-solid fa-arrow-left me-2"></i>
+                              Volver a mis tickets
+                          </a>*@
+                        @if (ViewBag.OrdenId != null)
+                        {
+                            <a href="@Url.Action("Detalle", "Ordenes", new { id = ViewBag.OrdenId })"
+                               class="btn btn-secondary w-100">
+                                <i class="fa-solid fa-arrow-left me-2"></i>
+                                Volver al detalle de la compra
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Tickets")"
+                               class="btn btn-secondary w-100">
+                                <i class="fa-solid fa-arrow-left me-2"></i>
+                                Volver a mis tickets
+                            </a>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+    .ticket-detail-card {
+        border-radius: 1.2rem;
+    }
+
+    .ticket-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 1rem;
+        background-color: #e8f0ff;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+    }
+
+    .codigo-ticket {
+        margin-top: 0.5rem;
+        padding: 1rem;
+        background-color: #f5f5f5;
+        border-radius: 0.6rem;
+        font-family: monospace;
+        font-size: 0.9rem;
+        word-break: break-all;
+        text-align: center;
+    }
+</style>

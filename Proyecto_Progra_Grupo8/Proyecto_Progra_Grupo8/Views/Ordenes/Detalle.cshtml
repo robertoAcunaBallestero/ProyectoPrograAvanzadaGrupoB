@@ -85,6 +85,7 @@
                                 <th>Ticket</th>
                                 <th>Código único</th>
                                 <th>Fecha de generación</th>
+                                <th></th>
                             </tr>
                         </thead>
 
@@ -103,6 +104,18 @@
 
                                     <td>
                                         @ticket.FechaGeneracion.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+                                    <td>
+                                        @*<a href="@Url.Action("Detalle", "Tickets", new { id = ticket.TicketId })"
+                                             class="btn btn-primary btn-sm">
+                                              <i class="fa-solid fa-ticket"></i>
+                                              Ver ticket
+                                          </a>*@
+                                        <a href="@Url.Action("Detalle", "Tickets", new {id = ticket.TicketId, ordenId = detalle.OrdenId})"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-ticket"></i>
+                                            Ver ticket
+                                        </a>
                                     </td>
                                 </tr>
                             }

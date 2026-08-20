@@ -136,10 +136,22 @@ namespace Proyecto_Progra_Grupo8.Datos.Repositories
             }
         }
 
+        //public IEnumerable<Orden> ObtenerOrdenesUsuario(
+        //    string usuarioId)
+        //{
+        //    return _context.Ordenes
+        //        .AsNoTracking()
+        //        .Where(o => o.UsuarioId == usuarioId)
+        //        .OrderByDescending(o => o.FechaCompra)
+        //        .ToList();
+        //} 
+
         public IEnumerable<Orden> ObtenerOrdenesUsuario(
             string usuarioId)
         {
             return _context.Ordenes
+                .Include(o => o.Detalles.Select(d => d.Evento))
+                .Include(o => o.Detalles.Select(d => d.Tickets))
                 .AsNoTracking()
                 .Where(o => o.UsuarioId == usuarioId)
                 .OrderByDescending(o => o.FechaCompra)
